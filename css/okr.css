@@ -1,0 +1,280 @@
+/* OKR Page Specific Styles */
+.okrs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.okr-card {
+  background: linear-gradient(135deg, var(--secondary-dark), var(--tertiary-dark));
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  transition: var(--transition);
+  position: relative;
+}
+
+.okr-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+.okr-header {
+  display: flex;
+  justify-content: between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.okr-objective {
+  flex: 1;
+}
+
+.okr-objective h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.okr-progress-circle {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.progress-circle-bg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  position: relative;
+}
+
+.progress-circle-fill {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 50%;
+  background: conic-gradient(var(--accent-color) 0% var(--progress-percent), var(--border-color) var(--progress-percent) 100%);
+  mask: radial-gradient(transparent 55%, black 56%);
+  -webkit-mask: radial-gradient(transparent 55%, black 56%);
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.okr-key-results {
+  margin-bottom: 1.5rem;
+}
+
+.key-result-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.key-result-item:last-child {
+  border-bottom: none;
+}
+
+.key-result-icon {
+  color: var(--accent-color);
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.key-result-text {
+  flex: 1;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.okr-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.progress-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.progress-input {
+  background-color: var(--primary-dark);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  width: 80px;
+  text-align: center;
+}
+
+.progress-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.update-btn {
+  background: linear-gradient(135deg, var(--accent-color), #6366f1);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.update-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+/* Progress States */
+.progress-excellent {
+  color: #10b981;
+}
+
+.progress-good {
+  color: #f59e0b;
+}
+
+.progress-poor {
+  color: #ef4444;
+}
+
+/* Empty State */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: var(--secondary-dark);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--border-color);
+}
+
+.empty-state p {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.empty-state small {
+  font-size: 0.9rem;
+}
+
+/* Chart Legend for OKR */
+#chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.legend-color-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legend-color-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* Responsive Design for OKR Page */
+@media (max-width: 768px) {
+  .okrs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .okr-card {
+    padding: 1.25rem;
+  }
+  
+  .okr-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .okr-progress-circle {
+    align-self: center;
+  }
+  
+  .okr-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .progress-input-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .okr-card {
+    padding: 1rem;
+  }
+  
+  .key-result-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .progress-input {
+    width: 100%;
+  }
+  
+  #chart-legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+/* Animation for progress updates */
+@keyframes progressPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.progress-updated {
+  animation: progressPulse 0.6s ease;
+}
