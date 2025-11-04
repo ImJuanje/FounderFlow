@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Flow - Gestor de Ideas</title>
+  <link rel="stylesheet" href="../css/ideas.css">
+  <link rel="stylesheet" href="../css/pitch.css">
+  <link rel="stylesheet" href="../index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+            <div class="logo-icon">
+              <i class="fas fa-chart-network"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Founder Flow</h1>
+              <span class="tagline">Excelencia operativa para startups</span>
+            </div>
+          </a>
+        </div>
+        
+        <nav>
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="./pitch.html" class="nav-link">
+            <i class="fas fa-presentation"></i>
+            <span>Pitch</span>
+          </a>
+          <a href="./ideas.html" class="nav-link active">
+            <i class="fas fa-lightbulb"></i>
+            <span>Ideas</span>
+          </a>
+          <a href="./dashboard.html" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <span>Dashboard</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-lightbulb"></i> Gestor de Ideas</h1>
+          <p>Captura, evalúa y prioriza tus ideas de negocio de manera sistemática</p>
+        </div>
+      </section>
+
+      <!-- Guía plegable -->
+      <section class="pitch-guide">
+        <div class="guide-header" id="guide-toggle">
+          <div class="guide-title">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Guía: Sistema de evaluación de ideas</h2>
+          </div>
+          <div class="guide-toggle">
+            <span class="toggle-text">Mostrar guía</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+        </div>
+        
+        <div class="guide-content" id="guide-content">
+          <div class="guide-intro">
+            <p>Evalúa tus ideas de negocio de forma objetiva usando criterios profesionales. Prioriza las oportunidades más prometedoras.</p>
+          </div>
+          
+          <div class="pitch-structure">
+            <div class="structure-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Impacto (1-10)</h3>
+                <p>¿Qué tan significativo es el valor que genera esta idea? Considera el tamaño del mercado, el dolor que resuelve y el potencial de crecimiento.</p>
+                <div class="step-example">
+                  <strong>Alto impacto (8-10):</strong> Resuelve un problema crítico para un mercado grande<br>
+                  <strong>Bajo impacto (1-3):</strong> Mejora incremental para un nicho pequeño
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Dificultad (1-10)</h3>
+                <p>¿Qué recursos, tiempo y competencias se requieren para implementar esta idea?</p>
+                <div class="step-example">
+                  <strong>Alta dificultad (8-10):</strong> Requiere tecnología compleja o regulación especial<br>
+                  <strong>Baja dificultad (1-3):</strong> Se puede implementar con recursos existentes
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Prioridad</h3>
+                <p>¿Qué tan urgente es trabajar en esta idea considerando tu estrategia actual?</p>
+                <div class="step-example">
+                  <strong>Alta:</strong> Alineado con objetivos inmediatos, alto ROI<br>
+                  <strong>Media:</strong> Valor estratégico pero no urgente<br>
+                  <strong>Baja:</strong> Interesante pero no crítico
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>Etiquetas</h3>
+                <p>Categoriza tus ideas para facilitar el filtrado y análisis posterior.</p>
+                <div class="step-example">
+                  <strong>Ejemplos:</strong> producto, marketing, proceso, innovación, optimización
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-tips">
+            <h4><i class="fas fa-calculator"></i> Fórmula de priorización</h4>
+            <div class="priority-formula">
+              <div class="formula-item">
+                <span class="formula-label">Puntuación =</span>
+                <span class="formula-value">Impacto ÷ Dificultad</span>
+              </div>
+              <div class="formula-note">
+                <strong>Ideas con mayor puntuación</strong> ofrecen mejor relación esfuerzo/beneficio
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Formulario de Ideas -->
+      <section class="pitch-creator">
+        <div class="creator-header">
+          <h2><i class="fas fa-plus-circle"></i> Añadir Nueva Idea</h2>
+          <p>Captura y evalúa sistemáticamente tus ideas de negocio</p>
+        </div>
+
+        <form id="idea-form" class="pitch-form">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="idea-title">
+                <i class="fas fa-heading"></i>
+                Título de la Idea
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="idea-title" 
+                placeholder="Ej: Plataforma de gestión automatizada para freelancers..."
+                required
+              >
+            </div>
+
+            <div class="form-group full-width">
+              <label for="idea-description">
+                <i class="fas fa-align-left"></i>
+                Descripción
+                <span class="required">*</span>
+              </label>
+              <textarea 
+                id="idea-description" 
+                placeholder="Describe la idea en detalle: qué problema resuelve, cómo funciona, qué valor ofrece..."
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="idea-tags">
+                <i class="fas fa-tags"></i>
+                Etiquetas
+              </label>
+              <input 
+                type="text" 
+                id="idea-tags" 
+                placeholder="producto, marketing, saas..."
+              >
+              <div class="form-hint">Separadas por comas</div>
+            </div>
+
+            <div class="form-group">
+              <label for="idea-priority">
+                <i class="fas fa-flag"></i>
+                Prioridad
+              </label>
+              <select id="idea-priority">
+                <option value="Alta">Alta</option>
+                <option value="Media" selected>Media</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="idea-impact">
+                <i class="fas fa-chart-line"></i>
+                Impacto
+                <span class="rating-value" id="impact-value">5</span>
+              </label>
+              <div class="rating-container">
+                <input type="range" id="idea-impact" min="1" max="10" value="5" class="rating-slider">
+                <div class="rating-labels">
+                  <span>1</span>
+                  <span>10</span>
+                </div>
+              </div>
+              <div class="form-hint">Potencial de valor generado</div>
+            </div>
+
+            <div class="form-group">
+              <label for="idea-difficulty">
+                <i class="fas fa-cogs"></i>
+                Dificultad
+                <span class="rating-value" id="difficulty-value">5</span>
+              </label>
+              <div class="rating-container">
+                <input type="range" id="idea-difficulty" min="1" max="10" value="5" class="rating-slider">
+                <div class="rating-labels">
+                  <span>1</span>
+                  <span>10</span>
+                </div>
+              </div>
+              <div class="form-hint">Esfuerzo requerido para implementar</div>
+            </div>
+          </div>
+
+          <div class="idea-score">
+            <div class="score-card">
+              <div class="score-label">Puntuación</div>
+              <div class="score-value" id="idea-score">1.0</div>
+              <div class="score-description" id="score-description">Impacto ÷ Dificultad</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-plus"></i>
+              Añadir Idea
+            </button>
+            <button type="reset" class="btn-secondary">
+              <i class="fas fa-undo"></i>
+              Limpiar Formulario
+            </button>
+            <button type="button" class="btn-guide" id="quick-guide-btn">
+              <i class="fas fa-question-circle"></i>
+              Mostrar Guía
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Filtros y Lista de Ideas -->
+      <section class="pitches-list">
+        <div class="list-header">
+          <h2><i class="fas fa-list"></i> Mis Ideas</h2>
+          <div class="list-stats">
+            <span class="stat" id="total-ideas">0 ideas</span>
+            <span class="stat" id="high-priority">0 alta prioridad</span>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+          <h3><i class="fas fa-filter"></i> Filtrar Ideas</h3>
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="filter-priority">
+                <i class="fas fa-flag"></i>
+                Prioridad
+              </label>
+              <select id="filter-priority">
+                <option value="">Todas las prioridades</option>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-tags">
+                <i class="fas fa-tags"></i>
+                Etiqueta
+              </label>
+              <input 
+                type="text" 
+                id="filter-tags" 
+                placeholder="Escribe una etiqueta..."
+              >
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-score">
+                <i class="fas fa-star"></i>
+                Puntuación mínima
+              </label>
+              <select id="filter-score">
+                <option value="0">Todas</option>
+                <option value="2">2+</option>
+                <option value="4">4+</option>
+                <option value="6">6+</option>
+                <option value="8">8+</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sort-ideas">
+                <i class="fas fa-sort"></i>
+                Ordenar por
+              </label>
+              <select id="sort-ideas">
+                <option value="score">Puntuación (Mayor primero)</option>
+                <option value="impact">Impacto (Mayor primero)</option>
+                <option value="difficulty">Dificultad (Menor primero)</option>
+                <option value="priority">Prioridad</option>
+                <option value="title">Título A-Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Ideas -->
+        <div class="table-container">
+          <table id="ideas-table">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Etiquetas</th>
+                <th>Prioridad</th>
+                <th>Impacto</th>
+                <th>Dificultad</th>
+                <th>Puntuación</th>
+              </tr>
+            </thead>
+            <tbody id="ideas-table-body">
+              <!-- Ideas se añadirán aquí dinámicamente -->
+              <tr class="empty-state">
+                <td colspan="7">
+                  <i class="fas fa-lightbulb"></i>
+                  <p>No hay ideas guardadas todavía</p>
+                  <small>Comienza añadiendo tu primera idea usando el formulario superior</small>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon">
+                <i class="fas fa-chart-network"></i>
+              </div>
+              <div class="logo-text">
+                <h3>Founder Flow</h3>
+                <span>Excelencia operativa para startups</span>
+              </div>
+            </div>
+            <p class="footer-description">Plataforma profesional de gestión para founders serios sobre crecimiento empresarial.</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>Herramientas</h4>
+              <a href="./pitch.html">Pitch</a>
+              <a href="./ideas.html">Ideas</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./okr.html">OKR</a>
+            </div>
+            <div class="link-group">
+              <h4>Recursos</h4>
+              <a href="#">Plantillas</a>
+              <a href="#">Guías</a>
+              <a href="#">Blog</a>
+              <a href="#">Webinars</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>&copy; 2025 Founder Flow. Diseñado para profesionales que construyen el futuro.</p>
+          </div>
+          <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../services.js"></script>
+  <script src="../js/ideas.js"></script>
+  
+  <!-- Script para la guía plegable -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const guideToggle = document.getElementById('guide-toggle');
+      const guideContent = document.getElementById('guide-content');
+      const quickGuideBtn = document.getElementById('quick-guide-btn');
+      const toggleText = guideToggle.querySelector('.toggle-text');
+      const toggleIcon = guideToggle.querySelector('.toggle-icon');
+      
+      // Función para toggle de la guía
+      function toggleGuide() {
+        const isActive = guideContent.classList.contains('active');
+        
+        if (isActive) {
+          // Ocultar
+          guideContent.classList.remove('active');
+          toggleText.textContent = 'Mostrar guía';
+          toggleIcon.style.transform = 'rotate(0deg)';
+        } else {
+          // Mostrar
+          guideContent.classList.add('active');
+          toggleText.textContent = 'Ocultar guía';
+          toggleIcon.style.transform = 'rotate(180deg)';
+        }
+      }
+      
+      // Toggle de la guía principal
+      guideToggle.addEventListener('click', toggleGuide);
+      
+      // Botón de guía rápida en el formulario
+      quickGuideBtn.addEventListener('click', function() {
+        if (!guideContent.classList.contains('active')) {
+          toggleGuide();
+          
+          // Scroll suave a la guía
+          setTimeout(() => {
+            guideContent.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 300);
+        }
+      });
+
+      // Cálculo de puntuación en tiempo real
+      const impactSlider = document.getElementById('idea-impact');
+      const difficultySlider = document.getElementById('idea-difficulty');
+      const impactValue = document.getElementById('impact-value');
+      const difficultyValue = document.getElementById('difficulty-value');
+      const ideaScore = document.getElementById('idea-score');
+      const scoreDescription = document.getElementById('score-description');
+
+      function updateScore() {
+        const impact = parseInt(impactSlider.value);
+        const difficulty = parseInt(difficultySlider.value);
+        const score = difficulty > 0 ? (impact / difficulty).toFixed(1) : impact.toFixed(1);
+        
+        impactValue.textContent = impact;
+        difficultyValue.textContent = difficulty;
+        ideaScore.textContent = score;
+
+        // Color según puntuación
+        if (score >= 3) {
+          ideaScore.className = 'score-value high-score';
+          scoreDescription.textContent = '¡Excelente oportunidad!';
+        } else if (score >= 1.5) {
+          ideaScore.className = 'score-value medium-score';
+          scoreDescription.textContent = 'Buena relación esfuerzo/beneficio';
+        } else {
+          ideaScore.className = 'score-value low-score';
+          scoreDescription.textContent = 'Considera si vale la pena el esfuerzo';
+        }
+      }
+
+      impactSlider.addEventListener('input', updateScore);
+      difficultySlider.addEventListener('input', updateScore);
+      
+      // Inicializar puntuación
+      updateScore();
+    });
+  </script>
+</body>
+</html>

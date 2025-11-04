@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Flow - OKR</title>
+  <link rel="stylesheet" href="../css/okr.css">
+  <link rel="stylesheet" href="../css/ideas.css">
+  <link rel="stylesheet" href="../css/pitch.css">
+  <link rel="stylesheet" href="../css/product.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+            <div class="logo-icon">
+              <i class="fas fa-chart-network"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Founder Flow</h1>
+              <span class="tagline">Excelencia operativa para startups</span>
+            </div>
+          </a>
+        </div>
+        
+        <nav>
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="./pitch.html" class="nav-link">
+            <i class="fas fa-presentation"></i>
+            <span>Pitch</span>
+          </a>
+          <a href="./ideas.html" class="nav-link">
+            <i class="fas fa-lightbulb"></i>
+            <span>Ideas</span>
+          </a>
+          <a href="./okr.html" class="nav-link active">
+            <i class="fas fa-bullseye"></i>
+            <span>OKR</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-bullseye"></i> Sistema OKR</h1>
+          <p>Define, sigue y alcanza tus objetivos estratégicos con metodología OKR</p>
+        </div>
+      </section>
+
+      <!-- Guía OKR -->
+      <section class="pitch-guide">
+        <div class="guide-header" id="guide-toggle">
+          <div class="guide-title">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Guía: Metodología OKR</h2>
+          </div>
+          <div class="guide-toggle">
+            <span class="toggle-text">Mostrar guía</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+        </div>
+        
+        <div class="guide-content" id="guide-content">
+          <div class="guide-intro">
+            <p>Los OKR (Objectives and Key Results) son un framework de establecimiento de metas que ayuda a las organizaciones a definir y rastrear objetivos y sus resultados.</p>
+          </div>
+          
+          <div class="pitch-structure">
+            <div class="structure-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Objective (Objetivo)</h3>
+                <p>Qué quieres lograr. Debe ser significativo, concreto, orientado a la acción e inspirador.</p>
+                <div class="step-example">
+                  <strong>Ejemplo:</strong> "Convertirse en el líder del mercado en soluciones SaaS para PYMEs"
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Key Results (Resultados Clave)</h3>
+                <p>Cómo medirás el logro del objetivo. Deben ser específicos, medibles y con plazos definidos.</p>
+                <div class="step-example">
+                  <strong>Ejemplo:</strong> "Alcanzar 1,000 clientes activos", "Lograr ingresos recurrentes de €50K/mes"
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Progreso Semanal</h3>
+                <p>Seguimiento continuo del avance hacia los resultados clave cada semana.</p>
+                <div class="step-example">
+                  <strong>Ejemplo:</strong> "Semana 45: 65% de progreso", "Semana 46: 78% de progreso"
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-tips">
+            <h4><i class="fas fa-lightbulb"></i> Mejores Prácticas OKR</h4>
+            <ul>
+              <li>Establece 3-5 OKRs por equipo/quarter</li>
+              <li>Los objetivos deben ser ambiciosos pero alcanzables</li>
+              <li>Revisa el progreso semanalmente</li>
+              <li>Celebra los logros y ajusta según sea necesario</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Crear OKR -->
+      <section class="pitch-creator">
+        <div class="creator-header">
+          <h2><i class="fas fa-plus-circle"></i> Crear Nuevo OKR</h2>
+          <p>Define tu objetivo estratégico y los resultados clave que medirán tu éxito</p>
+        </div>
+
+        <form id="okr-form" class="pitch-form">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="objective">
+                <i class="fas fa-bullseye"></i>
+                Objetivo
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="objective" 
+                placeholder="Ej: Lanzar con éxito nuestro nuevo producto al mercado..."
+                required
+              >
+              <div class="form-hint">Describe qué quieres lograr de manera inspiradora y concreta</div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="keyResults">
+                <i class="fas fa-chart-line"></i>
+                Resultados Clave
+                <span class="required">*</span>
+              </label>
+              <textarea 
+                id="keyResults" 
+                placeholder="Ej: Alcanzar 100 clientes en el primer mes, Generar €10K en ingresos recurrentes, Obtener 20 testimonios de clientes..."
+                rows="3"
+                required
+              ></textarea>
+              <div class="form-hint">Separa cada resultado clave con una coma. Deben ser medibles y con plazos.</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-plus"></i>
+              Crear OKR
+            </button>
+            <button type="reset" class="btn-secondary">
+              <i class="fas fa-undo"></i>
+              Limpiar Formulario
+            </button>
+            <button type="button" class="btn-guide" id="quick-guide-btn">
+              <i class="fas fa-question-circle"></i>
+              Mostrar Guía
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Lista de OKRs -->
+      <section class="pitches-list">
+        <div class="list-header">
+          <h2><i class="fas fa-list"></i> Mis OKRs Activos</h2>
+          <div class="list-stats">
+            <span class="stat" id="total-okrs">0 OKRs</span>
+            <span class="stat" id="avg-progress">0% progreso promedio</span>
+          </div>
+        </div>
+
+        <div class="okrs-grid" id="okrs-container">
+          <!-- OKRs se añadirán aquí dinámicamente -->
+          <div class="empty-state">
+            <i class="fas fa-bullseye"></i>
+            <p>No hay OKRs creados todavía</p>
+            <small>Crea tu primer OKR usando el formulario superior</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gráfico de Progreso -->
+      <section class="charts-section">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3><i class="fas fa-chart-line"></i> Progreso Semanal de OKRs</h3>
+            <p>Evolución del progreso de tus objetivos a lo largo del tiempo</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="okr-chart" width="400" height="300"></canvas>
+          </div>
+          <div class="chart-legend" id="chart-legend">
+            <!-- Leyenda se generará dinámicamente -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon">
+                <i class="fas fa-chart-network"></i>
+              </div>
+              <div class="logo-text">
+                <h3>Founder Flow</h3>
+                <span>Excelencia operativa para startups</span>
+              </div>
+            </div>
+            <p class="footer-description">Plataforma profesional de gestión para founders serios sobre crecimiento empresarial.</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>Herramientas</h4>
+              <a href="./pitch.html">Pitch</a>
+              <a href="./ideas.html">Ideas</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./okr.html">OKR</a>
+            </div>
+            <div class="link-group">
+              <h4>Recursos</h4>
+              <a href="#">Plantillas OKR</a>
+              <a href="#">Guías</a>
+              <a href="#">Blog</a>
+              <a href="#">Webinars</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>&copy; 2025 Founder Flow. Diseñado para profesionales que construyen el futuro.</p>
+          </div>
+          <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/okr.js"></script>
+  
+  <!-- Script para la guía plegable -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const guideToggle = document.getElementById('guide-toggle');
+      const guideContent = document.getElementById('guide-content');
+      const quickGuideBtn = document.getElementById('quick-guide-btn');
+      const toggleText = guideToggle.querySelector('.toggle-text');
+      const toggleIcon = guideToggle.querySelector('.toggle-icon');
+      
+      // Función para toggle de la guía
+      function toggleGuide() {
+        const isActive = guideContent.classList.contains('active');
+        
+        if (isActive) {
+          // Ocultar
+          guideContent.classList.remove('active');
+          toggleText.textContent = 'Mostrar guía';
+          toggleIcon.style.transform = 'rotate(0deg)';
+        } else {
+          // Mostrar
+          guideContent.classList.add('active');
+          toggleText.textContent = 'Ocultar guía';
+          toggleIcon.style.transform = 'rotate(180deg)';
+        }
+      }
+      
+      // Toggle de la guía principal
+      guideToggle.addEventListener('click', toggleGuide);
+      
+      // Botón de guía rápida en el formulario
+      quickGuideBtn.addEventListener('click', function() {
+        if (!guideContent.classList.contains('active')) {
+          toggleGuide();
+          
+          // Scroll suave a la guía
+          setTimeout(() => {
+            guideContent.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 300);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

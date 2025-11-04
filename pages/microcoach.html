@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Flow - Micro-Coach</title>
+  <link rel="stylesheet" href="../css/microcoach.css">
+  <link rel="stylesheet" href="../css/ideas.css">
+  <link rel="stylesheet" href="../css/pitch.css">
+  <link rel="stylesheet" href="../index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+            <div class="logo-icon">
+              <i class="fas fa-chart-network"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Founder Flow</h1>
+              <span class="tagline">Excelencia operativa para startups</span>
+            </div>
+          </a>
+        </div>
+        
+        <nav>
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="./pitch.html" class="nav-link">
+            <i class="fas fa-presentation"></i>
+            <span>Pitch</span>
+          </a>
+          <a href="./ideas.html" class="nav-link">
+            <i class="fas fa-lightbulb"></i>
+            <span>Ideas</span>
+          </a>
+          <a href="./microcoach.html" class="nav-link active">
+            <i class="fas fa-bolt"></i>
+            <span>Micro-Coach</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-bolt"></i> Micro-Coach</h1>
+          <p>Pequeños retos diarios para grandes mejoras en tu productividad y mindset</p>
+        </div>
+      </section>
+
+      <!-- Guía Micro-Coach -->
+      <section class="pitch-guide">
+        <div class="guide-header" id="guide-toggle">
+          <div class="guide-title">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Guía: Desarrollo Continuo</h2>
+          </div>
+          <div class="guide-toggle">
+            <span class="toggle-text">Mostrar guía</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+        </div>
+        
+        <div class="guide-content" id="guide-content">
+          <div class="guide-intro">
+            <p>La consistencia en pequeñas acciones genera grandes resultados. El Micro-Coach te ayuda a construir hábitos productivos mediante retos diarios de 5-10 minutos.</p>
+          </div>
+          
+          <div class="pitch-structure">
+            <div class="structure-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Retos Específicos</h3>
+                <p>Cada reto está diseñado para ser ejecutado en menos de 10 minutos con un objetivo claro y medible.</p>
+                <div class="step-example">
+                  <strong>Ejemplo:</strong> "Anota tus 3 tareas más importantes para hoy"
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Sistema de Puntos</h3>
+                <p>Gana puntos por completar retos y mantén tu motivación con una racha consecutiva.</p>
+                <div class="step-example">
+                  <strong>Beneficios:</strong> Seguimiento visual, Motivación continua, Progreso cuantificable
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Reflexión Diaria</h3>
+                <p>Registra tus aprendizajes y reflexiones para consolidar nuevos hábitos y mentalidades.</p>
+                <div class="step-example">
+                  <strong>Propósito:</strong> Aprendizaje consciente, Mejora continua, Autoconocimiento
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-tips">
+            <h4><i class="fas fa-lightbulb"></i> Estrategias de Éxito</h4>
+            <ul>
+              <li>Completa al menos un reto diario para mantener tu racha</li>
+              <li>Varía entre categorías para desarrollar habilidades balanceadas</li>
+              <li>Usa las reflexiones para identificar patrones y áreas de mejora</li>
+              <li>Celebra tus logros y puntos acumulados</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generador de Retos -->
+      <section class="pitch-creator">
+        <div class="creator-header">
+          <h2><i class="fas fa-dice"></i> Generador de Micro-Retos</h2>
+          <p>Selecciona una categoría y recibe tu reto diario de 5-10 minutos</p>
+        </div>
+
+        <div class="challenge-controls">
+          <div class="category-selector">
+            <label for="category">
+              <i class="fas fa-tags"></i>
+              Categoría
+            </label>
+            <select id="category">
+              <option value="productividad">🚀 Productividad</option>
+              <option value="negocio">💼 Negocio</option>
+              <option value="mindset">🧠 Mindset</option>
+              <option value="networking">🤝 Networking</option>
+            </select>
+          </div>
+
+          <button id="new-challenge-btn" class="btn-primary">
+            <i class="fas fa-sync-alt"></i>
+            Nuevo Reto
+          </button>
+        </div>
+
+        <div class="current-challenge" id="current-challenge">
+          <div class="challenge-header">
+            <h3><i class="fas fa-bullseye"></i> Reto Actual</h3>
+            <div class="challenge-points" id="challenge-points">0 pts</div>
+          </div>
+          <div class="challenge-content">
+            <p id="challenge-text">Selecciona una categoría y pulsa "Nuevo Reto" para recibir tu desafío diario</p>
+            
+            <div class="challenge-actions" id="challenge-actions" style="display: none;">
+              <div class="reflection-section">
+                <label for="reflection">
+                  <i class="fas fa-pen"></i>
+                  Tu reflexión / nota rápida
+                </label>
+                <textarea 
+                  id="reflection" 
+                  rows="4" 
+                  placeholder="Comenta qué harás, dificultades, ideas, aprendizajes..."
+                ></textarea>
+              </div>
+
+              <div class="action-buttons">
+                <button id="complete-btn" class="btn-success">
+                  <i class="fas fa-check"></i>
+                  Completado ✅
+                </button>
+                <button id="skip-btn" class="btn-secondary">
+                  <i class="fas fa-forward"></i>
+                  Saltar Reto
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estadísticas -->
+      <section class="stats-section">
+        <div class="stats-header">
+          <h2><i class="fas fa-chart-bar"></i> Tu Progreso</h2>
+          <p>Sigue tu evolución y mantén la motivación</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Puntos Totales</h3>
+              <div class="stat-number" id="points">0</div>
+              <div class="stat-trend">
+                <i class="fas fa-trophy"></i>
+                <span>Experiencia acumulada</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Retos Completados</h3>
+              <div class="stat-number" id="completed-count">0</div>
+              <div class="stat-trend">
+                <i class="fas fa-calendar-check"></i>
+                <span>Acciones concretadas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Racha Actual</h3>
+              <div class="stat-number" id="streak">0</div>
+              <div class="stat-trend">
+                <i class="fas fa-calendar-day"></i>
+                <span>Días consecutivos</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Categoría Favorita</h3>
+              <div class="stat-number" id="favorite-category">-</div>
+              <div class="stat-trend">
+                <i class="fas fa-heart"></i>
+                <span>Área más activa</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-actions">
+          <button id="reset-stats" class="btn-danger">
+            <i class="fas fa-trash"></i>
+            Resetear Progreso
+          </button>
+        </div>
+      </section>
+
+      <!-- Historial -->
+      <section class="pitches-list">
+        <div class="list-header">
+          <h2><i class="fas fa-history"></i> Historial de Retos</h2>
+          <div class="list-stats">
+            <span class="stat" id="total-challenges">0 retos</span>
+            <span class="stat" id="completion-rate">0% tasa de éxito</span>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="filter-category">
+                <i class="fas fa-filter"></i>
+                Filtrar por categoría
+              </label>
+              <select id="filter-category">
+                <option value="all">Todas las categorías</option>
+                <option value="productividad">Productividad</option>
+                <option value="negocio">Negocio</option>
+                <option value="mindset">Mindset</option>
+                <option value="networking">Networking</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-status">
+                <i class="fas fa-check-circle"></i>
+                Estado
+              </label>
+              <select id="filter-status">
+                <option value="all">Todos los estados</option>
+                <option value="completed">Completados</option>
+                <option value="skipped">Saltados</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sort-history">
+                <i class="fas fa-sort"></i>
+                Ordenar por
+              </label>
+              <select id="sort-history">
+                <option value="recent">Más recientes</option>
+                <option value="oldest">Más antiguos</option>
+                <option value="points">Más puntos</option>
+                <option value="category">Categoría</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-container" id="history-container">
+          <div class="empty-state">
+            <i class="fas fa-history"></i>
+            <p>No hay historial de retos todavía</p>
+            <small>Completa tu primer reto para comenzar tu historial</small>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon">
+                <i class="fas fa-chart-network"></i>
+              </div>
+              <div class="logo-text">
+                <h3>Founder Flow</h3>
+                <span>Excelencia operativa para startups</span>
+              </div>
+            </div>
+            <p class="footer-description">Plataforma profesional de gestión para founders serios sobre crecimiento empresarial.</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>Herramientas</h4>
+              <a href="./pitch.html">Pitch</a>
+              <a href="./ideas.html">Ideas</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./microcoach.html">Micro-Coach</a>
+            </div>
+            <div class="link-group">
+              <h4>Recursos</h4>
+              <a href="#">Tips Productividad</a>
+              <a href="#">Guías Mindset</a>
+              <a href="#">Blog</a>
+              <a href="#">Webinars</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>&copy; 2025 Founder Flow. Diseñado para profesionales que construyen el futuro.</p>
+          </div>
+          <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/microcoach.js"></script>
+  
+  <!-- Script para la guía plegable -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const guideToggle = document.getElementById('guide-toggle');
+      const guideContent = document.getElementById('guide-content');
+      const toggleText = guideToggle.querySelector('.toggle-text');
+      const toggleIcon = guideToggle.querySelector('.toggle-icon');
+      
+      // Función para toggle de la guía
+      function toggleGuide() {
+        const isActive = guideContent.classList.contains('active');
+        
+        if (isActive) {
+          // Ocultar
+          guideContent.classList.remove('active');
+          toggleText.textContent = 'Mostrar guía';
+          toggleIcon.style.transform = 'rotate(0deg)';
+        } else {
+          // Mostrar
+          guideContent.classList.add('active');
+          toggleText.textContent = 'Ocultar guía';
+          toggleIcon.style.transform = 'rotate(180deg)';
+        }
+      }
+      
+      // Toggle de la guía principal
+      guideToggle.addEventListener('click', toggleGuide);
+    });
+  </script>
+</body>
+</html>

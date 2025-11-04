@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Flow - Reuniones</title>
+  <link rel="stylesheet" href="../css/meetings.css">
+  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="../css/pitch.css">
+  <link rel="stylesheet" href="../css/ideas.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+            <div class="logo-icon">
+              <i class="fas fa-chart-network"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Founder Flow</h1>
+              <span class="tagline">Excelencia operativa para startups</span>
+            </div>
+          </a>
+        </div>
+        
+        <nav>
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="./pitch.html" class="nav-link">
+            <i class="fas fa-presentation"></i>
+            <span>Pitch</span>
+          </a>
+          <a href="./ideas.html" class="nav-link">
+            <i class="fas fa-lightbulb"></i>
+            <span>Ideas</span>
+          </a>
+          <a href="./meetings.html" class="nav-link active">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Reuniones</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-calendar-alt"></i> Organizador de Reuniones</h1>
+          <p>Optimiza tu tiempo y maximiza la productividad de cada reunión</p>
+        </div>
+      </section>
+
+      <!-- Guía Reuniones -->
+      <section class="pitch-guide">
+        <div class="guide-header" id="guide-toggle">
+          <div class="guide-title">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Guía: Reuniones Efectivas</h2>
+          </div>
+          <div class="guide-toggle">
+            <span class="toggle-text">Mostrar guía</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+        </div>
+        
+        <div class="guide-content" id="guide-content">
+          <div class="guide-intro">
+            <p>Transforma tus reuniones de pérdidas de tiempo a oportunidades de progreso con un sistema estructurado.</p>
+          </div>
+          
+          <div class="pitch-structure">
+            <div class="structure-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Preparación Anticipada</h3>
+                <p>Define objetivos claros, agenda y participantes antes de cada reunión.</p>
+                <div class="step-example">
+                  <strong>Checklist:</strong> Objetivos definidos, Agenda compartida, Material preparado
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Minutas Automatizadas</h3>
+                <p>Registra acuerdos, decisiones y acciones en tiempo real durante la reunión.</p>
+                <div class="step-example">
+                  <strong>Elementos clave:</strong> Acuerdos, Responsables, Plazos, Seguimientos
+                </div>
+              </div>
+            </div>
+            <div class="structure-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Seguimiento Sistemático</h3>
+                <p>Automatiza recordatorios y da seguimiento al cumplimiento de acuerdos.</p>
+                <div class="step-example">
+                  <strong>Automatizaciones:</strong> Recordatorios, Notificaciones, Reportes de progreso
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-tips">
+            <h4><i class="fas fa-lightbulb"></i> Mejores Prácticas</h4>
+            <ul>
+              <li>Establece un objetivo claro para cada reunión</li>
+              <li>Mantén las reuniones cortas y enfocadas</li>
+              <li>Asigna responsables y plazos específicos</li>
+              <li>Revisa acuerdos de reuniones anteriores</li>
+              <li>Comparte las minutas inmediatamente después</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Crear Nueva Reunión -->
+      <section class="pitch-creator">
+        <div class="creator-header">
+          <h2><i class="fas fa-plus-circle"></i> Programar Nueva Reunión</h2>
+          <p>Prepara y agenda tu próxima reunión con todos los elementos necesarios</p>
+        </div>
+
+        <form id="meeting-form" class="pitch-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="meeting-title">
+                <i class="fas fa-heading"></i>
+                Título de la Reunión
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="meeting-title" 
+                placeholder="Ej: Revisión Q1 - Planificación Estratégica..."
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="meeting-date">
+                <i class="fas fa-calendar-day"></i>
+                Fecha
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="date" 
+                id="meeting-date" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="meeting-time">
+                <i class="fas fa-clock"></i>
+                Hora
+                <span class="required">*</span>
+              </label>
+              <input 
+                type="time" 
+                id="meeting-time" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="meeting-duration">
+                <i class="fas fa-hourglass-half"></i>
+                Duración
+              </label>
+              <select id="meeting-duration">
+                <option value="30">30 minutos</option>
+                <option value="45">45 minutos</option>
+                <option value="60" selected>1 hora</option>
+                <option value="90">1.5 horas</option>
+                <option value="120">2 horas</option>
+                <option value="custom">Personalizada</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="meeting-participants">
+                <i class="fas fa-users"></i>
+                Participantes
+              </label>
+              <input 
+                type="text" 
+                id="meeting-participants" 
+                placeholder="Ej: ana@empresa.com, carlos@empresa.com..."
+              >
+              <div class="form-hint">Separar emails por comas</div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="meeting-objective">
+                <i class="fas fa-bullseye"></i>
+                Objetivo de la Reunión
+                <span class="required">*</span>
+              </label>
+              <textarea 
+                id="meeting-objective" 
+                placeholder="Ej: Definir roadmap de producto para el próximo trimestre, Revisar métricas de crecimiento..."
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="meeting-agenda">
+                <i class="fas fa-list-ol"></i>
+                Agenda
+              </label>
+              <textarea 
+                id="meeting-agenda" 
+                placeholder="Ej: 1. Revisión métricas (15min), 2. Discusión oportunidades (30min), 3. Plan de acción (15min)..."
+                rows="4"
+              ></textarea>
+              <div class="form-hint">Incluye tiempos estimados para cada punto</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-calendar-plus"></i>
+              Programar Reunión
+            </button>
+            <button type="reset" class="btn-secondary">
+              <i class="fas fa-undo"></i>
+              Limpiar Formulario
+            </button>
+            <button type="button" class="btn-guide" id="quick-guide-btn">
+              <i class="fas fa-question-circle"></i>
+              Mostrar Guía
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Lista de Reuniones -->
+      <section class="pitches-list">
+        <div class="list-header">
+          <h2><i class="fas fa-list"></i> Mis Reuniones</h2>
+          <div class="list-stats">
+            <span class="stat" id="total-meetings">0 reuniones</span>
+            <span class="stat" id="upcoming-meetings">0 próximas</span>
+            <span class="stat" id="pending-actions">0 acciones pendientes</span>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="filter-status">
+                <i class="fas fa-filter"></i>
+                Estado
+              </label>
+              <select id="filter-status">
+                <option value="all">Todas las reuniones</option>
+                <option value="upcoming">Próximas</option>
+                <option value="completed">Realizadas</option>
+                <option value="cancelled">Canceladas</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-date">
+                <i class="fas fa-calendar"></i>
+                Rango de fecha
+              </label>
+              <select id="filter-date">
+                <option value="all">Todas las fechas</option>
+                <option value="today">Hoy</option>
+                <option value="week">Esta semana</option>
+                <option value="month">Este mes</option>
+                <option value="custom">Personalizado</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="sort-meetings">
+                <i class="fas fa-sort"></i>
+                Ordenar por
+              </label>
+              <select id="sort-meetings">
+                <option value="date">Fecha (próximas primero)</option>
+                <option value="recent">Más recientes</option>
+                <option value="title">Título A-Z</option>
+                <option value="priority">Prioridad</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="meetings-grid" id="meetings-container">
+          <!-- Reuniones se añadirán aquí dinámicamente -->
+          <div class="empty-state">
+            <i class="fas fa-calendar-alt"></i>
+            <p>No hay reuniones programadas</p>
+            <small>Programa tu primera reunión usando el formulario superior</small>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal para Minutas -->
+  <div id="minutes-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-file-alt"></i> Minutas de Reunión</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="minutes-content">
+          <!-- Contenido de minutas se cargará aquí -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="close-minutes">Cerrar</button>
+        <button class="btn-primary" id="export-minutes">
+          <i class="fas fa-download"></i>
+          Exportar PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon">
+                <i class="fas fa-chart-network"></i>
+              </div>
+              <div class="logo-text">
+                <h3>Founder Flow</h3>
+                <span>Excelencia operativa para startups</span>
+              </div>
+            </div>
+            <p class="footer-description">Plataforma profesional de gestión para founders serios sobre crecimiento empresarial.</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>Herramientas</h4>
+              <a href="./pitch.html">Pitch</a>
+              <a href="./ideas.html">Ideas</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./meetings.html">Reuniones</a>
+            </div>
+            <div class="link-group">
+              <h4>Recursos</h4>
+              <a href="#">Plantillas</a>
+              <a href="#">Guías</a>
+              <a href="#">Blog</a>
+              <a href="#">Webinars</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>&copy; 2025 Founder Flow. Diseñado para profesionales que construyen el futuro.</p>
+          </div>
+          <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/meetings.js"></script>
+  
+  <!-- Script para la guía plegable -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const guideToggle = document.getElementById('guide-toggle');
+      const guideContent = document.getElementById('guide-content');
+      const quickGuideBtn = document.getElementById('quick-guide-btn');
+      const toggleText = guideToggle.querySelector('.toggle-text');
+      const toggleIcon = guideToggle.querySelector('.toggle-icon');
+      
+      // Función para toggle de la guía
+      function toggleGuide() {
+        const isActive = guideContent.classList.contains('active');
+        
+        if (isActive) {
+          // Ocultar
+          guideContent.classList.remove('active');
+          toggleText.textContent = 'Mostrar guía';
+          toggleIcon.style.transform = 'rotate(0deg)';
+        } else {
+          // Mostrar
+          guideContent.classList.add('active');
+          toggleText.textContent = 'Ocultar guía';
+          toggleIcon.style.transform = 'rotate(180deg)';
+        }
+      }
+      
+      // Toggle de la guía principal
+      guideToggle.addEventListener('click', toggleGuide);
+      
+      // Botón de guía rápida en el formulario
+      quickGuideBtn.addEventListener('click', function() {
+        if (!guideContent.classList.contains('active')) {
+          toggleGuide();
+          
+          // Scroll suave a la guía
+          setTimeout(() => {
+            guideContent.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 300);
+        }
+      });
+
+      // Modal functionality
+      const modal = document.getElementById('minutes-modal');
+      const closeButtons = document.querySelectorAll('.modal-close, #close-minutes');
+
+      closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          modal.classList.remove('active');
+        });
+      });
+
+      // Close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

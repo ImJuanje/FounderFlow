@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Flow - Producto</title>
+  <link rel="stylesheet" href="../css/product.css">
+  
+  <link rel="stylesheet" href="../css/pitch.css">
+  <link rel="stylesheet" href="../css/ideas.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+            <div class="logo-icon">
+              <i class="fas fa-chart-network"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Founder Flow</h1>
+              <span class="tagline">Excelencia operativa para startups</span>
+            </div>
+          </a>
+        </div>
+        
+        <nav>
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="./pitch.html" class="nav-link">
+            <i class="fas fa-presentation"></i>
+            <span>Pitch</span>
+          </a>
+          <a href="./ideas.html" class="nav-link">
+            <i class="fas fa-lightbulb"></i>
+            <span>Ideas</span>
+          </a>
+          <a href="./product.html" class="nav-link active">
+            <i class="fas fa-cube"></i>
+            <span>Producto</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-cube"></i> Nuestro Producto</h1>
+          <p>Descubre todo lo que Founder Flow puede hacer por tu startup</p>
+        </div>
+      </section>
+
+      <!-- Menú de pestañas -->
+      <section class="tabs-section">
+        <div class="tabs-container">
+          <div class="tabs-header">
+            <button class="tab-btn active" data-target="caracteristicas">
+              <i class="fas fa-star"></i>
+              Características
+            </button>
+            <button class="tab-btn" data-target="precios">
+              <i class="fas fa-tag"></i>
+              Precios
+            </button>
+            <button class="tab-btn" data-target="seguridad">
+              <i class="fas fa-shield-alt"></i>
+              Seguridad
+            </button>
+            <button class="tab-btn" data-target="actualizaciones">
+              <i class="fas fa-sync-alt"></i>
+              Actualizaciones
+            </button>
+          </div>
+
+          <!-- Contenido de pestañas -->
+          <div class="tab-content active" id="caracteristicas">
+            <div class="content-header">
+              <h2><i class="fas fa-star"></i> Características Principales</h2>
+              <p>Todo lo que necesitas para gestionar y hacer crecer tu startup en una sola plataforma</p>
+            </div>
+
+            <div class="features-grid">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-presentation"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Plantillas de Pitch</h3>
+                  <p>Crea presentaciones profesionales en minutos siguiendo estructuras validadas. Exporta a PDF o imagen para reuniones con inversores.</p>
+                  <ul class="feature-benefits">
+                    <li>Estructura problema-solución</li>
+                    <li>Exportación profesional</li>
+                    <li>Plantillas personalizables</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Gestor de Ideas</h3>
+                  <p>Captura, evalúa y prioriza todas tus ideas de negocio con un sistema de puntuación inteligente.</p>
+                  <ul class="feature-benefits">
+                    <li>Evaluación por impacto/dificultad</li>
+                    <li>Etiquetado inteligente</li>
+                    <li>Filtros avanzados</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Dashboard de Métricas</h3>
+                  <p>Visualiza el progreso de tus proyectos con métricas clave y análisis en tiempo real.</p>
+                  <ul class="feature-benefits">
+                    <li>KPIs personalizables</li>
+                    <li>Gráficos interactivos</li>
+                    <li>Análisis comparativo</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Planificador OKR</h3>
+                  <p>Define y sigue Objectives and Key Results para mantener tu equipo alineado y enfocado.</p>
+                  <ul class="feature-benefits">
+                    <li>Seguimiento semanal</li>
+                    <li>Reportes automáticos</li>
+                    <li>Alineación estratégica</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-handshake"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Networking Tracker</h3>
+                  <p>Gestiona tus contactos importantes con sistema de recordatorios y seguimientos automatizados.</p>
+                  <ul class="feature-benefits">
+                    <li>Base de datos de contactos</li>
+                    <li>Recordatorios inteligentes</li>
+                    <li>Seguimiento automatizado</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Organizador de Reuniones</h3>
+                  <p>Optimiza el tiempo en reuniones con registro de acuerdos y seguimiento de acciones.</p>
+                  <ul class="feature-benefits">
+                    <li>Minutas automatizadas</li>
+                    <li>Seguimiento de acciones</li>
+                    <li>Integración con calendario</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <div class="feature-content">
+                  <h3>Micro-Coach</h3>
+                  <p>Recibe tips diarios y micro-retos para mejorar tu productividad y habilidades directivas.</p>
+                  <ul class="feature-benefits">
+                    <li>Tips diarios ejecutivos</li>
+                    <li>Retos de 5 minutos</li>
+                    <li>Técnicas validadas</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="precios">
+            <div class="content-header">
+              <h2><i class="fas fa-tag"></i> Planes y Precios</h2>
+              <p>Elige el plan que mejor se adapte a las necesidades de tu startup</p>
+            </div>
+
+            <div class="pricing-grid">
+              <div class="pricing-card">
+                <div class="pricing-header">
+                  <h3>Básico</h3>
+                  <div class="price">
+                    <span class="amount">Gratis</span>
+                    <span class="period">para siempre</span>
+                  </div>
+                </div>
+                <div class="pricing-features">
+                  <ul>
+                    <li><i class="fas fa-check"></i> Hasta 10 ideas</li>
+                    <li><i class="fas fa-check"></i> 3 pitches básicos</li>
+                    <li><i class="fas fa-check"></i> Dashboard simple</li>
+                    <li><i class="fas fa-check"></i> Micro-coach básico</li>
+                    <li><i class="fas fa-times"></i> OKR avanzado</li>
+                    <li><i class="fas fa-times"></i> Networking tracker</li>
+                    <li><i class="fas fa-times"></i> Soporte prioritario</li>
+                  </ul>
+                </div>
+                <div class="pricing-actions">
+                  <button class="btn-secondary">Comenzar Gratis</button>
+                </div>
+              </div>
+
+              <div class="pricing-card featured">
+                <div class="pricing-badge">Más Popular</div>
+                <div class="pricing-header">
+                  <h3>Profesional</h3>
+                  <div class="price">
+                    <span class="amount">€19</span>
+                    <span class="period">por mes</span>
+                  </div>
+                </div>
+                <div class="pricing-features">
+                  <ul>
+                    <li><i class="fas fa-check"></i> Ideas ilimitadas</li>
+                    <li><i class="fas fa-check"></i> Pitches ilimitados</li>
+                    <li><i class="fas fa-check"></i> Dashboard avanzado</li>
+                    <li><i class="fas fa-check"></i> Micro-coach completo</li>
+                    <li><i class="fas fa-check"></i> OKR profesional</li>
+                    <li><i class="fas fa-check"></i> Networking tracker</li>
+                    <li><i class="fas fa-check"></i> Soporte prioritario</li>
+                  </ul>
+                </div>
+                <div class="pricing-actions">
+                  <button class="btn-primary">Prueba 14 Días Gratis</button>
+                </div>
+              </div>
+
+              <div class="pricing-card">
+                <div class="pricing-header">
+                  <h3>Enterprise</h3>
+                  <div class="price">
+                    <span class="amount">Personalizado</span>
+                    <span class="period">precio según necesidades</span>
+                  </div>
+                </div>
+                <div class="pricing-features">
+                  <ul>
+                    <li><i class="fas fa-check"></i> Todo lo del plan Pro</li>
+                    <li><i class="fas fa-check"></i> Múltiples equipos</li>
+                    <li><i class="fas fa-check"></i> Integraciones API</li>
+                    <li><i class="fas fa-check"></i> SLA 99.9%</li>
+                    <li><i class="fas fa-check"></i> Soporte 24/7</li>
+                    <li><i class="fas fa-check"></i> Onboarding personalizado</li>
+                    <li><i class="fas fa-check"></i> Auditoría de seguridad</li>
+                  </ul>
+                </div>
+                <div class="pricing-actions">
+                  <button class="btn-secondary">Contactar Ventas</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="pricing-footer">
+              <div class="guarantee">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantía de devolución de 30 días en todos los planes</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="seguridad">
+            <div class="content-header">
+              <h2><i class="fas fa-shield-alt"></i> Seguridad y Privacidad</h2>
+              <p>Tu información está protegida con los más altos estándares de seguridad</p>
+            </div>
+
+            <div class="security-grid">
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Cifrado de Datos</h3>
+                  <p>Todos los datos se cifran tanto en tránsito (TLS 1.3) como en reposo (AES-256).</p>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Autenticación Segura</h3>
+                  <p>Sistema de autenticación con roles personalizados y verificación en dos pasos.</p>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-database"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Backups Automáticos</h3>
+                  <p>Backups diarios automáticos con retención de 30 días y recuperación point-in-time.</p>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-shield-virus"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Protección Avanzada</h3>
+                  <p>Protección contra ataques DDoS, fuerza bruta y otras amenazas comunes.</p>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-users-cog"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Control de Accesos</h3>
+                  <p>Control granular de accesos a nivel de proyectos, ideas y datos sensibles.</p>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-icon">
+                  <i class="fas fa-certificate"></i>
+                </div>
+                <div class="security-content">
+                  <h3>Cumplimiento Normativo</h3>
+                  <p>Cumplimiento con GDPR, CCPA y otras regulaciones de protección de datos.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="security-certifications">
+              <h3>Certificaciones y Cumplimientos</h3>
+              <div class="certifications-grid">
+                <div class="certification">
+                  <i class="fas fa-gavel"></i>
+                  <span>GDPR Compliant</span>
+                </div>
+                <div class="certification">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>ISO 27001</span>
+                </div>
+                <div class="certification">
+                  <i class="fas fa-cloud"></i>
+                  <span>SOC 2 Type II</span>
+                </div>
+                <div class="certification">
+                  <i class="fas fa-lock"></i>
+                  <span>CCPA Ready</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="actualizaciones">
+            <div class="content-header">
+              <h2><i class="fas fa-sync-alt"></i> Historial de Actualizaciones</h2>
+              <p>Seguimos mejorando Founder Flow con nuevas funcionalidades y mejoras</p>
+            </div>
+
+            <div class="updates-timeline">
+              <div class="timeline-item">
+                <div class="timeline-date">
+                  <span class="version">v1.2</span>
+                  <span class="date">30/11/2025</span>
+                </div>
+                <div class="timeline-content">
+                  <h3>Dashboard Dinámico y Micro-Coach</h3>
+                  <ul>
+                    <li>Nuevo dashboard con gráficos interactivos</li>
+                    <li>Sistema de micro-coach de productividad</li>
+                    <li>Mejoras en la exportación de pitches</li>
+                    <li>Optimizaciones de rendimiento</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">
+                  <span class="version">v1.1</span>
+                  <span class="date">15/11/2025</span>
+                </div>
+                <div class="timeline-content">
+                  <h3>Mejoras de UX y Filtros Avanzados</h3>
+                  <ul>
+                    <li>Nuevos filtros en el gestor de ideas</li>
+                    <li>Sistema de exportación de pitches a PDF</li>
+                    <li>Mejoras en la interfaz de usuario</li>
+                    <li>Corrección de bugs reportados</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">
+                  <span class="version">v1.0</span>
+                  <span class="date">01/11/2025</span>
+                </div>
+                <div class="timeline-content">
+                  <h3>Lanzamiento Inicial</h3>
+                  <ul>
+                    <li>Plantillas rápidas de pitch</li>
+                    <li>Gestor de ideas de negocio</li>
+                    <li>Dashboard de métricas básico</li>
+                    <li>Planificador de objetivos OKR</li>
+                    <li>Networking tracker</li>
+                    <li>Organizador de reuniones</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="roadmap-preview">
+              <h3>Próximamente en Founder Flow</h3>
+              <div class="roadmap-grid">
+                <div class="roadmap-item">
+                  <div class="roadmap-status planned"></div>
+                  <div class="roadmap-content">
+                    <h4>Integraciones API</h4>
+                    <p>Conexión con herramientas populares como Slack, Google Workspace y más</p>
+                    <span class="roadmap-date">Q1 2026</span>
+                  </div>
+                </div>
+                <div class="roadmap-item">
+                  <div class="roadmap-status in-progress"></div>
+                  <div class="roadmap-content">
+                    <h4>App Móvil</h4>
+                    <p>Acceso completo desde tu dispositivo móvil iOS y Android</p>
+                    <span class="roadmap-date">Q2 2026</span>
+                  </div>
+                </div>
+                <div class="roadmap-item">
+                  <div class="roadmap-status planned"></div>
+                  <div class="roadmap-content">
+                    <h4>Análisis Predictivo</h4>
+                    <p>Recomendaciones inteligentes basadas en tus datos y patrones</p>
+                    <span class="roadmap-date">Q3 2026</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon">
+                <i class="fas fa-chart-network"></i>
+              </div>
+              <div class="logo-text">
+                <h3>Founder Flow</h3>
+                <span>Excelencia operativa para startups</span>
+              </div>
+            </div>
+            <p class="footer-description">Plataforma profesional de gestión para founders serios sobre crecimiento empresarial.</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="link-group">
+              <h4>Producto</h4>
+              <a href="./pitch.html">Pitch</a>
+              <a href="./ideas.html">Ideas</a>
+              <a href="./dashboard.html">Dashboard</a>
+              <a href="./product.html">Características</a>
+            </div>
+            <div class="link-group">
+              <h4>Empresa</h4>
+              <a href="#">Sobre Nosotros</a>
+              <a href="#">Blog</a>
+              <a href="#">Carreras</a>
+              <a href="#">Contacto</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>&copy; 2025 Founder Flow. Diseñado para profesionales que construyen el futuro.</p>
+          </div>
+          <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/product.js"></script>
+</body>
+</html>
