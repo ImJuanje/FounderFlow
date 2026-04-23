@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard PRO – FounderFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="notif-stack" class="notif-stack"></div>
+
+  <div class="checklist-modal" id="checklist-modal" onclick="closeChecklistIfOutside(event)">
+    <div class="checklist-panel">
+      <div class="checklist-header">
+        <div class="checklist-title"><i class="fas fa-list-check" style="color:var(--gold-solid);margin-right:0.5rem;"></i>Flujo de Producción</div>
+        <button class="btn btn-ghost btn-icon btn-sm" onclick="closeChecklist()"><i class="fas fa-xmark"></i></button>
+      </div>
+      <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;" id="checklist-post-name">Post: —</div>
+      <div class="checklist-progress">
+        <div class="checklist-bar" id="checklist-bar" style="width:0%"></div>
+      </div>
+      <div class="checklist-steps" id="checklist-steps"></div>
+      <div class="checklist-footer">
+        <button class="btn btn-gold" style="flex:1;" onclick="saveChecklist()"><i class="fas fa-floppy-disk"></i> Guardar progreso</button>
+        <button class="btn btn-ghost btn-sm" onclick="resetChecklist()"><i class="fas fa-rotate-left"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">FounderFlow <span class="crown"><i class="fas fa-crown"></i></span></div>
+        <div class="user-info">
+          <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+            <i id="theme-icon" class="fas fa-moon"></i>
+          </button>
+          <span id="user-name" style="font-weight:600; font-size:0.92rem;">Cargando...</span>
+          <div class="avatar" id="user-avatar">JD</div>
+          <button class="btn btn-ghost btn-sm" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Salir
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container" style="padding-top:2rem;">
+    <div class="streak-widget" id="streak-widget">
+      <div class="streak-flame">🔥</div>
+      <div class="streak-info">
+        <div class="streak-number" id="streak-count">0</div>
+        <div class="streak-label">días de racha publicando</div>
+        <div class="streak-best">Mejor racha: <span id="streak-best">0</span> días</div>
+      </div>
+      <div class="streak-days" id="streak-days"></div>
+      <button class="btn btn-gold btn-sm" onclick="logPublishToday()" style="flex-shrink:0;">
+        <i class="fas fa-fire"></i> Publiqué hoy
+      </button>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="grid grid-4">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-number" data-target="12500" id="stat-followers">0</div>
+        <div class="stat-label">Total Seguidores</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-trend-up"></i> +24% este mes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
+        <div class="stat-number" data-target="1540" data-prefix="€" id="stat-revenue">€0</div>
+        <div class="stat-label">Ingresos Generados</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-trend-up"></i> +15%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-heart"></i></div>
+        <div class="stat-number" data-target="8.5" data-suffix="%" id="stat-engagement">0%</div>
+        <div class="stat-label">Engagement Rate</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-trend-up"></i> +12%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+        <div class="stat-number" data-target="0" id="stat-posts">0</div>
+        <div class="stat-label">Posts Programados</div>
+        <div class="stat-trend trend-up" id="posts-trend"><i class="fas fa-plus"></i> Añade posts</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="grid grid-2">
+      <div class="glass-card">
+        <h3 class="card-title"><i class="fas fa-chart-line"></i> Crecimiento de Seguidores</h3>
+        <canvas id="analytics-chart" height="260"></canvas>
+      </div>
+      <div class="glass-card">
+        <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Calendario de Publicaciones</h3>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1rem;">
+          <button class="btn btn-ghost btn-sm" onclick="changeCalendarView('month')"><i class="fas fa-calendar"></i> Mes</button>
+          <button class="btn btn-ghost btn-sm" onclick="changeCalendarView('week')"><i class="fas fa-calendar-week"></i> Semana</button>
+          <select id="calendar-month" onchange="renderCalendar()" class="form-control" style="flex:1; min-width:130px; padding:0.45rem 0.85rem; font-size:0.85rem;">
+            <option value="2026-04">Abril 2026</option>
+            <option value="2026-05">Mayo 2026</option>
+            <option value="2026-06">Junio 2026</option>
+          </select>
+        </div>
+        <canvas id="calendar-chart" height="220"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="glass-card">
+      <div class="loading-overlay" id="analytics-loading"><div class="spinner"></div></div>
+      <h3 class="card-title"><i class="fas fa-chart-bar"></i> Analíticas Reales de Rendimiento</h3>
+
+      <div class="metric-form" id="metric-form">
+        <div>
+          <label>Plataforma</label>
+          <select id="m-platform" class="form-control" style="padding:0.6rem 0.85rem; font-size:0.85rem;">
+            <option>📱 TikTok</option>
+            <option>📸 Instagram Reels</option>
+            <option>📸 Instagram Feed</option>
+            <option>🐦 Twitter / X</option>
+            <option>🎥 YouTube Shorts</option>
+            <option>💼 LinkedIn</option>
+          </select>
+        </div>
+        <div>
+          <label>Views</label>
+          <input type="number" id="m-views" class="form-control" placeholder="ej: 12500" style="padding:0.6rem 0.85rem; font-size:0.85rem;">
+        </div>
+        <div>
+          <label>Likes</label>
+          <input type="number" id="m-likes" class="form-control" placeholder="ej: 850" style="padding:0.6rem 0.85rem; font-size:0.85rem;">
+        </div>
+        <div>
+          <label>Shares</label>
+          <input type="number" id="m-shares" class="form-control" placeholder="ej: 120" style="padding:0.6rem 0.85rem; font-size:0.85rem;">
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button class="btn btn-gold" onclick="addMetric()" style="width:100%; padding:0.6rem 1rem;">
+            <i class="fas fa-plus"></i> Añadir
+          </button>
+        </div>
+      </div>
+
+      <div id="analytics-insights" class="insights-grid" style="margin-bottom:1.25rem;"></div>
+      <div id="metrics-list" style="display:flex; flex-direction:column; gap:0.6rem;"></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="glass-card">
+      <div class="loading-overlay" id="ideas-loading"><div class="spinner"></div></div>
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <h3 class="card-title" style="margin:0;"><i class="fas fa-lightbulb"></i> Banco de Ideas</h3>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+          <span style="font-size:0.82rem; color:var(--text-muted);">Nicho: <strong style="color:var(--gold-solid);" id="ideas-nicho-label">–</strong></span>
+          <button class="btn btn-gold btn-sm" onclick="generateIdeas()"><i class="fas fa-wand-magic-sparkles"></i> Generar 15 ideas</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSavedIdeas()"><i class="fas fa-bookmark"></i> Guardadas (<span id="saved-count">0</span>)</button>
+        </div>
+      </div>
+
+      <div id="ideas-view-main">
+        <div id="ideas-grid" class="ideas-grid">
+          <div class="empty-state" style="grid-column:1/-1; padding:2rem;">
+            <i class="fas fa-lightbulb"></i>
+            <p>Pulsa "Generar 15 ideas" para llenar tu banco con contenido fresco para tu nicho</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="ideas-view-saved" style="display:none;">
+        <h4 style="font-size:0.92rem; font-weight:600; color:var(--text-muted); margin-bottom:0.85rem;">
+          <i class="fas fa-bookmark" style="color:var(--gold-solid);"></i> Ideas guardadas para trabajar
+        </h4>
+        <div id="saved-ideas-list" class="saved-ideas-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="glass-card" id="ai-container" style="position:relative;">
+      <div class="loading-overlay" id="ai-loading"><div class="spinner"></div></div>
+      <h3 class="card-title" style="font-size:1.15rem;"><i class="fas fa-wand-magic-sparkles"></i> AI Generator & Programador PRO</h3>
+
+      <div class="nicho-selector">
+  <button class="nicho-toggle" id="nicho-toggle" type="button">
+    <span>
+      <i class="fas fa-tags"></i>
+      Categorías de nicho
+    </span>
+    <i class="fas fa-chevron-down nicho-chevron" id="nicho-chevron"></i>
+  </button>
+
+  <div class="nicho-panel" id="nicho-panel">
+    <p class="nicho-label">
+      <i class="fas fa-tag"></i>&nbsp; Tu nicho:
+    </p>
+
+    <div class="nicho-grid" id="nicho-grid">
+      <button class="nicho-chip" data-nicho="Fitness & Salud">💪 Fitness</button>
+      <button class="nicho-chip" data-nicho="Moda & Lifestyle">👗 Moda</button>
+      <button class="nicho-chip" data-nicho="Emprendimiento & Negocios">💼 Negocios</button>
+      <button class="nicho-chip" data-nicho="Gastronomía & Cocina">🍳 Gastronomía</button>
+      <button class="nicho-chip" data-nicho="Viajes & Aventura">✈️ Viajes</button>
+      <button class="nicho-chip" data-nicho="Belleza & Cuidado personal">💄 Belleza</button>
+      <button class="nicho-chip" data-nicho="Tecnología & Gaming">🎮 Tech/Gaming</button>
+      <button class="nicho-chip" data-nicho="Entretenimiento & Humor">😂 Humor</button>
+      <button class="nicho-chip" data-nicho="Educación & Formación">📚 Educación</button>
+      <button class="nicho-chip" data-nicho="Finanzas personales">💰 Finanzas</button>
+      <button class="nicho-chip" data-nicho="Arte & Creatividad">🎨 Arte</button>
+      <button class="nicho-chip" data-nicho="Música & Entretenimiento">🎵 Música</button>
+      <button class="nicho-chip active" data-nicho="General / Lifestyle">🌟 Lifestyle</button>
+      <button class="nicho-chip" data-nicho="Deporte">⚽ Deporte</button>
+      <button class="nicho-chip" data-nicho="Mascotas & Animales">🐾 Mascotas</button>
+    </div>
+  </div>
+</div>
+
+      <div class="controls-row">
+        <select id="platform" class="form-control" style="flex:1.5; min-width:150px;">
+          <option>📱 TikTok</option>
+          <option>📸 Instagram Reels</option>
+          <option>📸 Instagram Feed</option>
+          <option>🐦 Twitter / X</option>
+          <option>🎥 YouTube Shorts</option>
+          <option>💼 LinkedIn</option>
+          <option>📌 Pinterest</option>
+          <option>👻 Snapchat</option>
+        </select>
+        <select id="content-type" class="form-control" style="flex:1; min-width:140px;">
+          <option value="viral">🔥 Viral / Tendencia</option>
+          <option value="educational">📚 Educativo</option>
+          <option value="storytelling">📖 Storytelling</option>
+          <option value="humor">😂 Humor / Entretenimiento</option>
+          <option value="promotional">💰 Promocional</option>
+          <option value="ugc">🎬 UGC / Review</option>
+          <option value="challenge">🏆 Reto / Challenge</option>
+        </select>
+        <input type="date" id="post-date" class="form-control" style="flex:0.8; min-width:140px;">
+        <button class="btn btn-gold" onclick="generateContent()"><i class="fas fa-bolt"></i> Generar con IA</button>
+        <button class="btn btn-ghost" onclick="addPostFromAI()"><i class="fas fa-plus"></i> Guardar Post</button>
+      </div>
+
+      <textarea class="form-control" id="ai-input" placeholder="Describe tu idea o deja en blanco para generar según tu nicho..." style="min-height:100px;"></textarea>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:0.6rem; gap:0.5rem; flex-wrap:wrap;">
+        <span style="font-size:0.78rem; color:var(--text-muted); display:flex; align-items:center; gap:0.3rem;">
+          <kbd style="padding:0.1rem 0.4rem; border:var(--gold-border); border-radius:4px; font-size:0.75rem;">Ctrl+Enter</kbd> para generar
+        </span>
+        <button class="btn btn-ghost btn-sm" onclick="clearAI()"><i class="fas fa-eraser"></i> Limpiar</button>
+      </div>
+
+      <div id="ai-output" class="ai-output" style="display:none;"></div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem; margin:2rem 0 1rem 0;">
+        <h4 style="font-size:1rem; font-weight:600; display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-layer-group" style="color:var(--gold-solid);"></i> Mis Posts
+          <span id="total-posts" style="background:rgba(255,215,0,0.15); color:var(--gold-solid); border-radius:50px; padding:0.1rem 0.6rem; font-size:0.8rem; font-weight:700;">0</span>
+        </h4>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+          <div class="search-bar" style="min-width:200px;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-posts" placeholder="Buscar posts..." oninput="filterPosts(this.value)">
+          </div>
+          <div class="tabs" style="margin:0;">
+            <button class="tab-btn active" onclick="filterByStatus('all', this)">Todos</button>
+            <button class="tab-btn" onclick="filterByStatus('draft', this)">Borradores</button>
+            <button class="tab-btn" onclick="filterByStatus('scheduled', this)">Programados</button>
+            <button class="tab-btn" onclick="filterByStatus('published', this)">Publicados</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="posts-list" class="posts-container" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)"></div>
+
+      <div class="summary-bar">
+        <div class="summary-stat"><div class="num" id="upcoming-count">0</div><div class="lbl">Programados</div></div>
+        <div class="summary-stat"><div class="num" id="drafts-count">0</div><div class="lbl">Borradores</div></div>
+        <div class="summary-stat"><div class="num" id="published-count">0</div><div class="lbl">Publicados</div></div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="exportPosts('csv')"><i class="fas fa-file-csv"></i> CSV</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportPosts('json')"><i class="fas fa-file-code"></i> JSON</button>
+          <button class="btn btn-gold btn-sm" onclick="bulkPublish()"><i class="fas fa-rocket"></i> Publicar todos</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="grid grid-colab">
+      <div class="glass-card">
+        <h3 class="card-title"><i class="fas fa-handshake"></i> Colaboraciones</h3>
+        <div id="collaborations-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.25rem;"></div>
+        <button class="btn btn-ghost" style="width:100%;" onclick="addCollaboration()"><i class="fas fa-plus"></i> Nueva Colaboración</button>
+      </div>
+
+      <div class="glass-card">
+        <h3 class="card-title"><i class="fas fa-id-card"></i> Perfil de Creador PRO</h3>
+        <div class="profile-layout">
+          <div class="profile-photo-wrap">
+            <img src="https://ui-avatars.com/api/?name=Creator&background=ffd700&color=000&size=200&bold=true" id="profile-img" alt="Avatar">
+            <label for="avatar-upload" class="photo-btn" title="Cambiar foto">
+              <i class="fas fa-camera"></i>
+              <input type="file" id="avatar-upload" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+            </label>
+          </div>
+          <div class="profile-fields">
+            <input type="text" id="profile-name" class="form-control" placeholder="Nombre completo" style="font-size:1.05rem; font-weight:600;">
+            <textarea id="profile-bio" class="form-control" placeholder="Bio (ej: Travel Creator | 50K seguidores | Colaboraciones premium)" style="min-height:72px;"></textarea>
+            <input type="url" id="profile-link" class="form-control" placeholder="Tu link principal (TikTok, Instagram, web...)">
+            <div style="display:flex; gap:0.75rem;">
+              <button class="btn btn-gold" onclick="saveProfile()" style="flex:1;"><i class="fas fa-floppy-disk"></i> Guardar</button>
+              <button class="btn btn-ghost" onclick="shareProfile()" style="flex:1;"><i class="fas fa-share-nodes"></i> Compartir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section" style="padding-bottom:3rem;">
+    <div class="glass-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <h3 class="card-title" style="margin:0;"><i class="fas fa-file-invoice"></i> Rate Card & Media Kit</h3>
+        <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="generateMediaKit()"><i class="fas fa-rotate"></i> Actualizar</button>
+          <button class="btn btn-gold btn-sm" onclick="exportMediaKit()"><i class="fas fa-download"></i> Exportar HTML</button>
+          <button class="btn btn-ghost btn-sm" onclick="copyMediaKitLink()"><i class="fas fa-link"></i> Copiar link</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem; margin-bottom:1.25rem;">
+        <div><label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Post de Feed / carrusel (€)</label><input type="number" id="rate-feed" class="form-control" placeholder="500" style="padding:0.6rem 0.85rem; font-size:0.9rem;"></div>
+        <div><label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Reel / TikTok (€)</label><input type="number" id="rate-reel" class="form-control" placeholder="800" style="padding:0.6rem 0.85rem; font-size:0.9rem;"></div>
+        <div><label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Story pack x5 (€)</label><input type="number" id="rate-story" class="form-control" placeholder="300" style="padding:0.6rem 0.85rem; font-size:0.9rem;"></div>
+        <div><label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Pack completo (€)</label><input type="number" id="rate-pack" class="form-control" placeholder="1500" style="padding:0.6rem 0.85rem; font-size:0.9rem;"></div>
+      </div>
+
+      <div id="mediakit-preview"></div>
+    </div>
+  </section>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
