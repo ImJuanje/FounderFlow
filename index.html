@@ -3,503 +3,1617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FounderFlow - Plataforma Premium para Creadores</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>FounderFlow — La Plataforma para Creadores que Escalan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..500;9..600;9..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-primary: #080b12;
-            --bg-secondary: rgba(255,215,0,0.04);
-            --bg-hero: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            --text-primary: #f0f4ff;
-            --text-muted: rgba(240,244,255,0.6);
-            --accent-gold: linear-gradient(135deg, #ffd700 0%, #ffed4a 60%, #ffe066 100%);
-            --gold-solid: #ffd700;
-            --glass: rgba(255,255,255,0.08);
-            --glass-hover: rgba(255,255,255,0.12);
-            --gold-border: 1px solid rgba(255,215,0,0.2);
-            --success: #4ade80;
-            --radius-lg: 24px;
-            --shadow-gold: 0 20px 40px rgba(255,215,0,0.15);
-            --transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-        }
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+    --bg: #070a10;
+    --bg2: #0b0f1a;
+    --surface: rgba(255,255,255,0.045);
+    --surface2: rgba(255,255,255,0.08);
+    --gold: #ffd700;
+    --gold2: #ffed4a;
+    --gold-grad: linear-gradient(135deg,#ffd700 0%,#ffed4a 55%,#ffe566 100%);
+    --gold-border: 1px solid rgba(255,215,0,0.18);
+    --gold-border-hi: 1px solid rgba(255,215,0,0.45);
+    --text: #eef2ff;
+    --muted: rgba(238,242,255,0.52);
+    --success: #4ade80;
+    --danger: #ef4444;
+    --r-sm: 14px;
+    --r-md: 20px;
+    --r-lg: 28px;
+    --r-xl: 36px;
+    --ease: cubic-bezier(.4,0,.2,1);
+    --t: all .3s var(--ease);
+    --shadow-gold: 0 20px 60px rgba(255,215,0,0.14);
+    --shadow-deep: 0 8px 40px rgba(0,0,0,0.5);
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:76px;}
+body{
+    font-family:var(--ff-body);
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    line-height:1.65;
+}
+::selection{background:rgba(255,215,0,0.25);color:#fff;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.3);border-radius:99px;}
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg-primary);
-            background-image: radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,215,0,0.06)), 
-                              radial-gradient(ellipse 50% 30% at 80% 80%, rgba(255,215,0,0.04));
-            color: var(--text-primary); 
-            line-height: 1.6; 
-            overflow-x: hidden;
-        }
+/* ═══════════════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════════════ */
+body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;z-index:0;opacity:0.55;
+}
 
-        /* Navigation */
-        .nav { 
-            position: fixed; top: 0; left: 0; right: 0; 
-            background: rgba(8,11,18,0.95); backdrop-filter: blur(20px);
-            border-bottom: var(--gold-border); z-index: 1000; 
-            padding: 1rem 0; transition: var(--transition);
-        }
-        .nav-content { 
-            max-width: 1200px; margin: 0 auto; padding: 0 1rem; 
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { 
-            font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600;
-            background: var(--accent-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
-        .cta-nav { 
-            background: var(--accent-gold); color: #000; padding: 0.75rem 1.5rem; 
-            border-radius: 50px; font-weight: 600; text-decoration: none;
-        }
-        @media (max-width: 768px) { 
-            .nav-links { display: none; } 
-            .cta-nav { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
-        }
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+.nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    padding:.9rem 0;
+    background:rgba(7,10,16,0.8);
+    backdrop-filter:blur(28px) saturate(1.8);
+    -webkit-backdrop-filter:blur(28px);
+    border-bottom:var(--gold-border);
+    transition:var(--t);
+}
+.nav.scrolled{background:rgba(7,10,16,0.96);}
+.nav-inner{
+    max-width:1260px;margin:0 auto;padding:0 1.5rem;
+    display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+}
+.logo{
+    font-family:var(--ff-display);
+    font-size:1.85rem;font-weight:600;letter-spacing:-.01em;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    text-decoration:none;white-space:nowrap;
+}
+.logo sup{
+    font-size:.5em;vertical-align:super;
+    -webkit-text-fill-color:var(--gold);letter-spacing:.08em;
+}
+.nav-links{
+    display:flex;align-items:center;gap:2.2rem;list-style:none;
+}
+.nav-links a{
+    font-size:.875rem;font-weight:500;color:var(--muted);
+    text-decoration:none;transition:var(--t);
+    letter-spacing:.01em;
+}
+.nav-links a:hover{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:.85rem;}
+.btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    gap:.45rem;padding:.68rem 1.35rem;
+    border:none;border-radius:50px;
+    font-family:var(--ff-body);font-size:.875rem;font-weight:600;
+    cursor:pointer;transition:var(--t);white-space:nowrap;
+    text-decoration:none;letter-spacing:.01em;
+}
+.btn-ghost{
+    background:transparent;color:var(--text);
+    border:var(--gold-border);
+}
+.btn-ghost:hover{background:rgba(255,215,0,0.07);border-color:rgba(255,215,0,.4);}
+.btn-gold{
+    background:var(--gold-grad);color:#000;font-weight:700;
+}
+.btn-gold:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(255,215,0,0.4);}
+.btn-lg{padding:1rem 2.5rem;font-size:1rem;}
+.btn-xl{padding:1.1rem 3rem;font-size:1.08rem;}
+@media(max-width:768px){
+    .nav-links{display:none;}
+    .btn-ghost.nav-only{display:none;}
+}
 
-        /* Hero */
-        .hero { 
-            min-height: 100vh; background: var(--bg-hero);
-            display: flex; align-items: center; justify-content: center; text-align: center; 
-            position: relative; padding: 0 1rem;
-        }
-        .hero-content { max-width: 800px; }
-        .hero h1 { 
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 6rem); 
-            background: var(--accent-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -0.02em;
-        }
-        .hero-subtitle { 
-            font-size: clamp(1.2rem, 3vw, 1.5rem); margin-bottom: 2.5rem; 
-            opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;
-        }
-        .hero-cta { 
-            background: var(--accent-gold); color: #000; padding: 1.2rem 3rem; 
-            border: none; border-radius: 50px; font-weight: 700; font-size: 1.15rem;
-            cursor: pointer; transition: var(--transition); display: inline-flex; 
-            align-items: center; gap: 0.75rem; box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-        }
-        .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(255,215,0,0.4); }
+/* ═══════════════════════════════════════════════
+   HERO — split layout
+═══════════════════════════════════════════════ */
+.hero{
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding:5rem 1.5rem 4rem;
+    position:relative;overflow:hidden;
+}
+/* Atmospheric blobs */
+.hero::before{
+    content:'';position:absolute;
+    top:-20%;left:-10%;
+    width:60%;height:80%;
+    background:radial-gradient(ellipse,rgba(255,215,0,0.055) 0%,transparent 65%);
+    pointer-events:none;
+}
+.hero::after{
+    content:'';position:absolute;
+    bottom:-10%;right:-5%;
+    width:50%;height:60%;
+    background:radial-gradient(ellipse,rgba(255,215,0,0.035) 0%,transparent 60%);
+    pointer-events:none;
+}
+.hero-inner{
+    max-width:1260px;margin:0 auto;width:100%;
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:4rem;align-items:center;
+    position:relative;z-index:1;
+}
+.hero-copy{}
+.hero-eyebrow{
+    display:inline-flex;align-items:center;gap:.55rem;
+    padding:.38rem 1rem;
+    background:rgba(255,215,0,0.09);
+    border:var(--gold-border);border-radius:50px;
+    font-size:.78rem;font-weight:600;
+    color:var(--gold);letter-spacing:.06em;text-transform:uppercase;
+    margin-bottom:1.75rem;
+}
+.hero-eyebrow .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px rgba(255,215,0,0.8);
+    animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+.hero h1{
+    font-family:var(--ff-display);
+    font-size:clamp(2.8rem,5.5vw,5rem);
+    font-weight:600;line-height:1.08;
+    letter-spacing:-.025em;
+    margin-bottom:1.5rem;
+}
+.hero h1 .line-gold{
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero h1 .line-ghost{
+    color:rgba(238,242,255,0.18);
+    font-style:italic;
+}
+.hero-sub{
+    font-size:1.08rem;color:var(--muted);
+    max-width:480px;margin-bottom:2.5rem;
+    line-height:1.75;
+}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.hero-proof{
+    display:flex;align-items:center;gap:1.25rem;
+    flex-wrap:wrap;
+}
+.proof-item{
+    display:flex;align-items:center;gap:.5rem;
+    font-size:.82rem;color:var(--muted);
+}
+.proof-item i{color:var(--success);font-size:.85em;}
+.proof-sep{width:1px;height:16px;background:rgba(255,215,0,0.2);}
 
-        /* Sections */
-        section { padding: 6rem 0; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-        section h2 { 
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); 
-            text-align: center; margin-bottom: 4rem; background: var(--accent-gold); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative;
-        }
-        h2::after { 
-            content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
-            width: 60px; height: 3px; background: var(--accent-gold); border-radius: 2px;
-        }
+/* Hero video side */
+.hero-visual{position:relative;}
+.video-frame{
+    position:relative;
+    border-radius:var(--r-xl);
+    border:var(--gold-border-hi);
+    overflow:hidden;
+    background:#0d1420;
+    box-shadow:var(--shadow-gold),var(--shadow-deep);
+    aspect-ratio:16/10;
+}
+.video-frame::before{
+    content:'';
+    position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,215,0,0.04),transparent 50%,rgba(255,215,0,0.02));
+    z-index:1;pointer-events:none;
+}
+.video-placeholder{
+    width:100%;height:100%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:1.5rem;padding:3rem;
+    background:linear-gradient(135deg,#0d1420 0%,#111827 100%);
+}
+.play-ring{
+    position:relative;width:72px;height:72px;cursor:pointer;
+}
+.play-ring::before{
+    content:'';
+    position:absolute;inset:-8px;
+    border-radius:50%;
+    border:1.5px solid rgba(255,215,0,0.35);
+    animation:ringPulse 2.5s ease-in-out infinite;
+}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.15);opacity:.25;}}
+.play-btn{
+    width:72px;height:72px;border-radius:50%;
+    background:var(--gold-grad);
+    display:flex;align-items:center;justify-content:center;
+    color:#000;font-size:1.4rem;cursor:pointer;
+    transition:var(--t);border:none;
+    box-shadow:0 8px 30px rgba(255,215,0,0.4);
+}
+.play-btn:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(255,215,0,0.55);}
+.video-placeholder p{
+    font-size:.9rem;color:var(--muted);text-align:center;max-width:260px;
+}
+/* Actual YouTube embed */
+.video-embed{
+    position:absolute;inset:0;width:100%;height:100%;
+    border:none;
+}
+/* Floating badge */
+.hero-badge{
+    position:absolute;
+    bottom:-1.5rem;left:-1.5rem;
+    background:var(--bg2);border:var(--gold-border-hi);
+    border-radius:var(--r-md);
+    padding:.85rem 1.25rem;
+    display:flex;align-items:center;gap:.85rem;
+    box-shadow:var(--shadow-deep);
+    z-index:2;white-space:nowrap;
+}
+.badge-icon{
+    width:38px;height:38px;border-radius:10px;
+    background:rgba(74,222,128,0.12);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--success);font-size:1.1rem;flex-shrink:0;
+}
+.badge-text .val{font-weight:700;font-size:.95rem;}
+.badge-text .lbl{font-size:.72rem;color:var(--muted);}
+.hero-badge2{
+    position:absolute;
+    top:-1.25rem;right:-1.25rem;
+    background:var(--bg2);border:var(--gold-border);
+    border-radius:var(--r-sm);padding:.7rem 1rem;
+    display:flex;align-items:center;gap:.65rem;
+    box-shadow:var(--shadow-deep);
+    z-index:2;
+}
+.badge2-icon{
+    width:32px;height:32px;border-radius:8px;
+    background:rgba(255,215,0,0.1);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);font-size:1rem;
+}
+.badge2-text .val{font-weight:700;font-size:.88rem;}
+.badge2-text .lbl{font-size:.7rem;color:var(--muted);}
 
-        /* Glass Cards */
-        .glass-card { 
-            background: var(--glass); backdrop-filter: blur(24px); border: var(--gold-border); 
-            border-radius: var(--radius-lg); padding: 2.5rem; margin-bottom: 2rem; 
-            transition: var(--transition); position: relative; overflow: hidden;
-        }
-        .glass-card::before { 
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: var(--accent-gold); transform: scaleX(0); transition: var(--transition);
-        }
-        .glass-card:hover::before { transform: scaleX(1); }
-        .glass-card:hover { 
-            transform: translateY(-8px); box-shadow: var(--shadow-gold); 
-            border-color: rgba(255,215,0,0.4);
-        }
+@media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-visual{order:-1;}
+    .hero-badge{bottom:auto;top:-1.25rem;left:-0.75rem;}
+    .hero-badge2{display:none;}
+}
 
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+/* ═══════════════════════════════════════════════
+   LOGOS BAR
+═══════════════════════════════════════════════ */
+.logos-bar{
+    padding:3rem 1.5rem;
+    border-top:var(--gold-border);
+    border-bottom:var(--gold-border);
+    background:rgba(255,215,0,0.015);
+}
+.logos-inner{
+    max-width:1260px;margin:0 auto;
+    display:flex;align-items:center;gap:3rem;
+    flex-wrap:wrap;justify-content:center;
+}
+.logos-label{
+    font-size:.75rem;color:var(--muted);letter-spacing:.08em;
+    text-transform:uppercase;font-weight:600;white-space:nowrap;
+}
+.logo-badge{
+    font-size:.82rem;color:rgba(238,242,255,0.35);
+    font-weight:600;letter-spacing:.04em;
+    transition:var(--t);
+}
+.logo-badge:hover{color:rgba(238,242,255,0.6);}
 
-        /* Stats */
-        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); text-align: center; }
-        .stat-number { 
-            font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; 
-            background: var(--accent-gold); -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 0.5rem;
-        }
-        .stat-label { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
-        .stat-trend { font-size: 0.9rem; color: var(--success); font-weight: 600; }
+/* ═══════════════════════════════════════════════
+   SECTION SHELL
+═══════════════════════════════════════════════ */
+.section{padding:6rem 1.5rem;}
+.section-alt{background:linear-gradient(180deg,rgba(255,215,0,0.02) 0%,transparent 100%);}
+.wrap{max-width:1260px;margin:0 auto;}
+.section-label{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:.85rem;
+}
+.section-label::before{content:'';width:24px;height:1.5px;background:var(--gold-grad);}
+.section-title{
+    font-family:var(--ff-display);
+    font-size:clamp(2.4rem,4.5vw,3.8rem);
+    font-weight:600;line-height:1.12;
+    letter-spacing:-.02em;margin-bottom:1.1rem;
+}
+.section-title .accent{
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-title .ghost{color:rgba(238,242,255,0.2);font-style:italic;}
+.section-sub{
+    font-size:1.05rem;color:var(--muted);
+    max-width:580px;line-height:1.75;
+}
+.section-header-split{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    gap:2rem;flex-wrap:wrap;margin-bottom:4rem;
+}
 
-        /* Features */
-        .feature-icon { font-size: 3.5rem; color: var(--gold-solid); margin-bottom: 1.5rem; }
-        .feature h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+/* ═══════════════════════════════════════════════
+   STATS ROW
+═══════════════════════════════════════════════ */
+.stats-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.5rem;
+}
+.stat-card{
+    padding:2rem;
+    background:var(--surface);
+    border:var(--gold-border);
+    border-radius:var(--r-lg);
+    position:relative;overflow:hidden;
+    transition:var(--t);
+}
+.stat-card::after{
+    content:'';
+    position:absolute;bottom:0;left:0;right:0;
+    height:2px;background:var(--gold-grad);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .4s var(--ease);
+}
+.stat-card:hover::after{transform:scaleX(1);}
+.stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-gold);}
+.stat-card .num{
+    font-family:var(--ff-display);
+    font-size:clamp(2.5rem,4vw,3.5rem);
+    font-weight:600;line-height:1;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:.4rem;
+}
+.stat-card .lbl{font-size:.88rem;color:var(--muted);font-weight:500;}
+.stat-card .trend{
+    margin-top:.65rem;font-size:.8rem;
+    color:var(--success);font-weight:600;
+    display:flex;align-items:center;gap:.3rem;
+}
 
-        /* Testimonials */
-        .testimonial-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .testimonial-author { 
-            font-weight: 700; color: var(--gold-solid); margin-top: 1rem;
-            display: flex; align-items: center; gap: 0.75rem;
-        }
-        .testimonial-avatar { 
-            width: 40px; height: 40px; border-radius: 50%; 
-            background: var(--accent-gold); color: #000; font-weight: 700; 
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
-        }
+/* ═══════════════════════════════════════════════
+   FEATURES GRID
+═══════════════════════════════════════════════ */
+.features-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.5rem;
+}
+.feat-card{
+    padding:2rem 2rem 2.25rem;
+    background:var(--surface);
+    border:var(--gold-border);
+    border-radius:var(--r-lg);
+    transition:var(--t);
+    position:relative;overflow:hidden;
+}
+.feat-card::before{
+    content:'';
+    position:absolute;top:0;left:0;right:0;
+    height:1px;background:var(--gold-grad);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .45s var(--ease);
+}
+.feat-card:hover::before{transform:scaleX(1);}
+.feat-card:hover{background:var(--surface2);transform:translateY(-6px);box-shadow:var(--shadow-gold);}
+.feat-icon{
+    width:52px;height:52px;border-radius:var(--r-sm);
+    background:rgba(255,215,0,0.1);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.35rem;color:var(--gold);
+    margin-bottom:1.35rem;
+    border:var(--gold-border);
+}
+.feat-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.65rem;letter-spacing:-.01em;}
+.feat-card p{font-size:.9rem;color:var(--muted);line-height:1.7;}
+.feat-pill{
+    display:inline-block;margin-top:1rem;
+    padding:.25rem .75rem;border-radius:50px;
+    background:rgba(74,222,128,0.1);
+    color:var(--success);font-size:.72rem;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;
+    border:1px solid rgba(74,222,128,0.2);
+}
 
-        /* Pricing */
-        .pricing-toggle { 
-            display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; background: var(--glass); 
-            padding: 0.75rem 1.5rem; border-radius: 50px; max-width: 300px; margin-left: auto; margin-right: auto;
-        }
-        .toggle-btn { 
-            padding: 0.75rem 1.5rem; border: none; border-radius: 50px; 
-            background: transparent; color: var(--text-muted); cursor: pointer; font-weight: 600;
-            transition: var(--transition);
-        }
-        .toggle-btn.active { 
-            background: var(--accent-gold); color: #000; transform: translateY(-2px);
-        }
-        .price { 
-            font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; color: var(--gold-solid); 
-            margin: 1rem 0 1.5rem 0; line-height: 1;
-        }
-        .price-period { font-size: 0.9rem; color: var(--text-muted); }
-        .features-list { list-style: none; }
-        .features-list li { 
-            padding: 0.75rem 0; display: flex; align-items: center; gap: 0.75rem;
-            font-size: 0.95rem;
-        }
-        .features-list i { color: var(--success); min-width: 20px; }
+/* ═══════════════════════════════════════════════
+   DEMO VIDEOS — collapsible accordion
+═══════════════════════════════════════════════ */
+.demos-list{
+    display:flex;flex-direction:column;gap:.85rem;
+}
+.demo-item{
+    border:var(--gold-border);
+    border-radius:var(--r-md);
+    overflow:hidden;
+    background:var(--surface);
+    transition:var(--t);
+}
+.demo-item:hover{border-color:rgba(255,215,0,.35);}
+.demo-item.open{
+    border-color:rgba(255,215,0,.45);
+    box-shadow:0 0 0 1px rgba(255,215,0,.1),var(--shadow-deep);
+}
+.demo-trigger{
+    display:flex;align-items:center;gap:1.25rem;
+    padding:1.4rem 1.75rem;
+    cursor:pointer;
+    transition:var(--t);
+    user-select:none;
+}
+.demo-trigger:hover{background:rgba(255,255,255,0.025);}
+.demo-num{
+    font-family:var(--ff-display);
+    font-size:1.5rem;font-weight:600;
+    color:rgba(255,215,0,.3);
+    min-width:2rem;line-height:1;
+    transition:var(--t);
+}
+.demo-item.open .demo-num{color:var(--gold);}
+.demo-meta{flex:1;}
+.demo-meta strong{display:block;font-size:.98rem;font-weight:600;margin-bottom:.2rem;}
+.demo-meta span{font-size:.82rem;color:var(--muted);}
+.demo-tags{
+    display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;
+}
+.demo-tag{
+    padding:.18rem .6rem;border-radius:50px;
+    font-size:.7rem;font-weight:600;letter-spacing:.04em;
+    background:rgba(255,215,0,0.1);
+    color:var(--gold);border:var(--gold-border);
+}
+.demo-arrow{
+    width:34px;height:34px;border-radius:50%;
+    border:var(--gold-border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:.8rem;
+    transition:var(--t);flex-shrink:0;
+}
+.demo-item.open .demo-arrow{
+    background:rgba(255,215,0,0.12);
+    border-color:rgba(255,215,0,.4);
+    color:var(--gold);
+    transform:rotate(180deg);
+}
+.demo-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .5s var(--ease), padding .4s var(--ease);
+}
+.demo-item.open .demo-body{max-height:900px;}
+.demo-body-inner{
+    padding:0 1.75rem 1.75rem;
+    border-top:var(--gold-border);
+}
+.demo-video-wrap{
+    margin-top:1.5rem;
+    border-radius:var(--r-md);
+    overflow:hidden;
+    border:var(--gold-border);
+    background:#0d1420;
+    aspect-ratio:16/9;
+    position:relative;
+}
+.demo-video-placeholder{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:1rem;
+    background:linear-gradient(135deg,#0d1420,#111827);
+}
+.demo-video-placeholder .play-mini{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--gold-grad);color:#000;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;cursor:pointer;
+    box-shadow:0 6px 24px rgba(255,215,0,0.4);
+    transition:var(--t);border:none;
+}
+.demo-video-placeholder .play-mini:hover{transform:scale(1.1);}
+.demo-video-placeholder p{font-size:.85rem;color:var(--muted);text-align:center;max-width:300px;}
+.demo-video-placeholder .hint{
+    font-size:.72rem;color:rgba(255,215,0,.5);
+    display:flex;align-items:center;gap:.35rem;
+}
+.demo-video-embed{
+    position:absolute;inset:0;width:100%;height:100%;border:none;
+    display:none;
+}
+.demo-desc{
+    margin-top:1.25rem;
+    font-size:.88rem;color:var(--muted);line-height:1.7;
+}
+.demo-features-mini{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;
+}
+.demo-feat-chip{
+    display:flex;align-items:center;gap:.35rem;
+    padding:.3rem .75rem;border-radius:50px;
+    background:rgba(255,255,255,0.04);
+    border:var(--gold-border);
+    font-size:.75rem;color:var(--muted);
+}
+.demo-feat-chip i{color:var(--gold);font-size:.75em;}
 
-        /* CTA Section */
-        .cta-section { background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.02)); }
-        .cta-content { text-align: center; max-width: 600px; margin: 0 auto; }
+/* ═══════════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════════ */
+.testi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:1.5rem;
+}
+.testi-card{
+    padding:2rem;
+    background:var(--surface);
+    border:var(--gold-border);
+    border-radius:var(--r-lg);
+    transition:var(--t);
+    display:flex;flex-direction:column;gap:1.25rem;
+}
+.testi-card:hover{background:var(--surface2);transform:translateY(-4px);}
+.testi-stars{display:flex;gap:.25rem;color:var(--gold);font-size:.85rem;}
+.testi-quote{font-size:.93rem;line-height:1.75;color:var(--muted);}
+.testi-quote strong{color:var(--text);}
+.testi-author{
+    display:flex;align-items:center;gap:.85rem;
+    padding-top:1rem;border-top:var(--gold-border);
+    margin-top:auto;
+}
+.testi-av{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--gold-grad);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:.85rem;color:#000;
+    flex-shrink:0;overflow:hidden;
+}
+.testi-info .name{font-weight:700;font-size:.9rem;}
+.testi-info .role{font-size:.78rem;color:var(--muted);}
+.testi-metric{
+    margin-left:auto;text-align:right;
+}
+.testi-metric .mv{font-weight:700;color:var(--gold);font-size:.95rem;}
+.testi-metric .ml{font-size:.7rem;color:var(--muted);}
 
-        /* Modal */
-        .modal { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); 
-            z-index: 2000; align-items: center; justify-content: center; padding: 1rem;
-        }
-        .modal-content { 
-            background: var(--glass); border: var(--gold-border); border-radius: var(--radius-lg); 
-            padding: 3rem; max-width: 450px; width: 100%; max-height: 90vh; overflow-y: auto;
-        }
-        .close-modal { 
-            position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; 
-            cursor: pointer; color: var(--text-muted); width: 36px; height: 36px;
-            display: flex; align-items: center; justify-content: center; border-radius: 50%;
-            transition: var(--transition);
-        }
-        .close-modal:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
-        .form-input { 
-            width: 100%; padding: 1.1rem; margin-bottom: 1.5rem; border: var(--gold-border); 
-            border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--text-primary);
-            font-size: 1rem; font-family: inherit; transition: var(--transition);
-        }
-        .form-input:focus { 
-            outline: none; border-color: var(--gold-solid); 
-            box-shadow: 0 0 0 3px rgba(255,215,0,0.15); background: rgba(255,215,0,0.03);
-        }
-        .form-input::placeholder { color: var(--text-muted); }
+/* ═══════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════ */
+.pricing-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.5rem;max-width:800px;margin:0 auto;
+}
+.plan-card{
+    padding:2.5rem;
+    background:var(--surface);
+    border:var(--gold-border);
+    border-radius:var(--r-xl);
+    transition:var(--t);
+    position:relative;overflow:hidden;
+}
+.plan-card:hover{background:var(--surface2);}
+.plan-card.featured{
+    border-color:rgba(255,215,0,.5);
+    background:linear-gradient(135deg,rgba(255,215,0,.06) 0%,var(--surface) 100%);
+    box-shadow:var(--shadow-gold);
+}
+.plan-popular{
+    position:absolute;top:1.35rem;right:1.35rem;
+    background:var(--gold-grad);color:#000;
+    padding:.28rem .85rem;border-radius:50px;
+    font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+}
+.plan-name{font-size:.75rem;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.65rem;}
+.plan-price{
+    font-family:var(--ff-display);
+    font-size:3.5rem;font-weight:600;line-height:1;
+    margin-bottom:.35rem;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.plan-price span{font-size:1.1rem;font-weight:400;color:var(--muted);-webkit-text-fill-color:var(--muted);}
+.plan-period{font-size:.82rem;color:var(--muted);margin-bottom:1.75rem;}
+.plan-divider{height:1px;background:var(--gold-grad);opacity:.15;margin-bottom:1.75rem;}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem;}
+.plan-feats li{display:flex;align-items:flex-start;gap:.7rem;font-size:.88rem;color:var(--muted);}
+.plan-feats li i{color:var(--success);margin-top:.15rem;flex-shrink:0;}
+.plan-feats li strong{color:var(--text);}
+.pricing-toggle{
+    display:flex;align-items:center;justify-content:center;
+    gap:.5rem;margin-bottom:3.5rem;
+}
+.toggle-wrap{
+    display:flex;
+    background:var(--surface);border:var(--gold-border);
+    border-radius:50px;padding:.35rem;gap:.25rem;
+}
+.toggle-opt{
+    padding:.6rem 1.4rem;border:none;border-radius:50px;
+    background:transparent;color:var(--muted);
+    font-family:var(--ff-body);font-size:.86rem;font-weight:600;
+    cursor:pointer;transition:var(--t);
+}
+.toggle-opt.active{background:var(--gold-grad);color:#000;}
+.save-badge{
+    padding:.3rem .8rem;border-radius:50px;
+    background:rgba(74,222,128,0.12);
+    color:var(--success);font-size:.75rem;font-weight:700;
+    border:1px solid rgba(74,222,128,0.25);
+}
 
-        /* Animations */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        .animate { animation: fadeInUp 0.8s ease forwards; }
+/* ═══════════════════════════════════════════════
+   CTA SECTION
+═══════════════════════════════════════════════ */
+.cta-section{
+    position:relative;overflow:hidden;
+    padding:7rem 1.5rem;
+    background:linear-gradient(135deg,rgba(255,215,0,.06) 0%,transparent 50%,rgba(255,215,0,.03) 100%);
+    border-top:var(--gold-border);
+}
+.cta-section::before{
+    content:'';
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:800px;height:400px;
+    background:radial-gradient(ellipse,rgba(255,215,0,.07),transparent 60%);
+    pointer-events:none;
+}
+.cta-inner{
+    max-width:680px;margin:0 auto;
+    text-align:center;position:relative;z-index:1;
+}
+.cta-title{
+    font-family:var(--ff-display);
+    font-size:clamp(2.8rem,5vw,4.5rem);
+    font-weight:600;line-height:1.1;letter-spacing:-.025em;
+    margin-bottom:1.25rem;
+}
+.cta-sub{font-size:1.1rem;color:var(--muted);margin-bottom:2.5rem;line-height:1.7;}
+.cta-actions{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.cta-fine{margin-top:1.25rem;font-size:.8rem;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.cta-fine span{display:flex;align-items:center;gap:.35rem;}
+.cta-fine i{color:var(--success);}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .pricing-toggle { flex-direction: column; gap: 0.5rem; padding: 1rem; }
-            .hero h1 { margin-bottom: 1rem; }
-            .hero-subtitle { margin-bottom: 2rem; }
-            section { padding: 4rem 0; }
-        }
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{
+    border-top:var(--gold-border);
+    padding:2.5rem 1.5rem;
+    background:rgba(255,215,0,.01);
+}
+.footer-inner{
+    max-width:1260px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:1rem;
+}
+.footer-logo{
+    font-family:var(--ff-display);
+    font-size:1.5rem;font-weight:600;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-copy{font-size:.8rem;color:var(--muted);}
+
+/* ═══════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════ */
+.modal{
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);
+    z-index:2000;align-items:center;justify-content:center;padding:1.5rem;
+}
+.modal.open{display:flex;}
+.modal-panel{
+    background:#0b0f1a;
+    border:var(--gold-border-hi);
+    border-radius:var(--r-xl);
+    padding:2.5rem;
+    max-width:430px;width:100%;
+    max-height:92vh;overflow-y:auto;
+    position:relative;
+    box-shadow:var(--shadow-gold),var(--shadow-deep);
+}
+.modal-close{
+    position:absolute;top:1.25rem;right:1.25rem;
+    width:34px;height:34px;border-radius:50%;
+    border:var(--gold-border);background:transparent;
+    color:var(--muted);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;transition:var(--t);
+}
+.modal-close:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.modal-logo{
+    font-family:var(--ff-display);
+    font-size:1.4rem;font-weight:600;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:.5rem;
+}
+.modal-sub{font-size:.85rem;color:var(--muted);margin-bottom:2rem;}
+.form-group{margin-bottom:1.25rem;}
+.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.45rem;letter-spacing:.04em;text-transform:uppercase;}
+.form-input{
+    width:100%;padding:.85rem 1.1rem;
+    border:var(--gold-border);border-radius:var(--r-md);
+    background:rgba(255,255,255,0.03);color:var(--text);
+    font-family:var(--ff-body);font-size:.95rem;
+    transition:var(--t);outline:none;
+}
+.form-input:focus{border-color:rgba(255,215,0,.5);box-shadow:0 0 0 3px rgba(255,215,0,.1);}
+.form-input::placeholder{color:rgba(238,242,255,0.3);}
+.modal-cta{width:100%;padding:1rem;font-size:1rem;border-radius:var(--r-md);}
+.modal-fine{text-align:center;margin-top:1rem;font-size:.78rem;color:var(--muted);}
+
+/* ═══════════════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════════════ */
+.reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.08s;}
+.reveal-d2{transition-delay:.16s;}
+.reveal-d3{transition-delay:.24s;}
+.reveal-d4{transition-delay:.32s;}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media(max-width:640px){
+    .section{padding:4rem 1rem;}
+    .plan-card{padding:1.75rem;}
+    .modal-panel{padding:1.75rem 1.25rem;}
+
+/* ═══════════════════════════════════════════════
+   NAV - CORREGIDO PARA MÓVIL
+═══════════════════════════════════════════════ */
+.nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    padding:.9rem 0;
+    background:rgba(7,10,16,0.8);
+    backdrop-filter:blur(28px) saturate(1.8);
+    -webkit-backdrop-filter:blur(28px);
+    border-bottom:var(--gold-border);
+    transition:var(--t);
+}
+.nav-inner{
+    max-width:1260px;margin:0 auto;padding:0 1.5rem;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.logo{
+    font-family:var(--ff-display);
+    font-size:clamp(1.4rem, 5vw, 1.85rem);
+    font-weight:600;letter-spacing:-.01em;
+    background:var(--gold-grad);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    text-decoration:none;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+.logo sup{
+    font-size:.5em;vertical-align:super;
+    -webkit-text-fill-color:var(--gold);letter-spacing:.08em;
+}
+.nav-links{
+    display:flex;align-items:center;gap:clamp(1rem, 3vw, 2.2rem);
+    list-style:none;
+}
+.nav-links a{
+    font-size:.875rem;font-weight:500;color:var(--muted);
+    text-decoration:none;transition:var(--t);
+    letter-spacing:.01em;
+    white-space:nowrap;
+}
+.nav-right{
+    display:flex;align-items:center;gap:.75rem;
+    flex-shrink:0;
+}
+.btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    gap:.45rem;padding:.6rem 1.2rem;
+    border:none;border-radius:50px;
+    font-family:var(--ff-body);font-size:.875rem;font-weight:600;
+    cursor:pointer;transition:var(--t);
+    text-decoration:none;letter-spacing:.01em;
+    white-space:nowrap;
+}
+.btn-sm{
+    padding:.45rem 1rem;
+    font-size:.8rem;
+}
+.btn-ghost{
+    background:transparent;color:var(--text);
+    border:var(--gold-border);
+}
+.btn-ghost:hover{background:rgba(255,215,0,0.07);border-color:rgba(255,215,0,.4);}
+.btn-gold{
+    background:var(--gold-grad);color:#000;font-weight:700;
+}
+.btn-gold:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(255,215,0,0.4);}
+.btn-lg{padding:1rem 2rem;font-size:1rem;}
+.btn-xl{padding:0.9rem 2rem;font-size:1rem;}
+
+/* Responsive Nav para móvil */
+@media(max-width:768px){
+    .nav-inner{
+        padding:0 1rem;
+        gap:0.75rem;
+    }
+    .logo{
+        font-size:1.3rem;
+    }
+    .nav-links{
+        display:none;
+    }
+    .nav-right{
+        gap:0.5rem;
+    }
+    .btn{
+        padding:0.5rem 0.9rem;
+        font-size:0.8rem;
+    }
+    .btn-gold{
+        padding:0.5rem 1rem;
+    }
+    .btn-ghost.nav-only{
+        display:flex;
+    }
+}
+
+/* Ajustes extra para móviles muy pequeños */
+@media(max-width:480px){
+    .nav-inner{
+        gap:0.5rem;
+    }
+    .logo{
+        font-size:1.1rem;
+    }
+    .btn{
+        padding:0.4rem 0.7rem;
+        font-size:0.75rem;
+    }
+    .btn-gold{
+        padding:0.4rem 0.8rem;
+    }
+    .btn i{
+        font-size:0.75rem;
+    }
+}
+}
+/* Ajustes adicionales para móvil */
+@media(max-width:640px){
+    .hero-actions{
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .hero-actions .btn{
+        justify-content: center;
+    }
+    .cta-actions{
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .cta-actions .btn{
+        justify-content: center;
+    }
+    .pricing-grid{
+        grid-template-columns:1fr;
+    }
+    .features-grid{
+        grid-template-columns:1fr;
+    }
+    .testi-grid{
+        grid-template-columns:1fr;
+    }
+    .stats-row{
+        grid-template-columns:repeat(2,1fr);
+        gap:1rem;
+    }
+    .hero-proof{
+        justify-content: center;
+    }
+    .hero-visual{
+        margin-top: 2rem;
+    }
+    .hero-badge{
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin-top: 1rem;
+        justify-content: center;
+    }
+    .hero-badge2{
+        display: none;
+    }
+    .logos-inner{
+        gap: 1.5rem;
+    }
+    .section-header-split{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-content">
-            <div class="logo">FounderFlow</div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#pricing">Precios</a></li>
-                <li><a href="#colabs">Colaboraciones</a></li>
-            </ul>
-            <a href="#" class="cta-nav" onclick="openModal()">Empieza Gratis</a>
-        </div>
-    </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Escala tu Influencia</h1>
-            <p class="hero-subtitle">La plataforma premium para creadores. AI, analíticas avanzadas, colaboraciones y media kit profesional en un solo lugar.</p>
-            <button class="hero-cta" onclick="openModal()">
-                <i class="fas fa-rocket"></i>
-                Empieza Gratis Ahora
-            </button>
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#" class="logo">FounderFlow <sup>PRO</sup></a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demos">Demo</a></li>
+            <li><a href="#testimonios">Resultados</a></li>
+            <li><a href="#precios">Precios</a></li>
+        </ul>
+       <div class="nav-right">
+            <a href="./dashboard.html" class="btn btn-ghost">Entrar</a>
+            <button class="btn btn-gold" onclick="openModal()">Empieza Gratis</button>
         </div>
-    </section>
+    </div>
+</nav>
 
-    <!-- Features -->
-    <section id="features">
-        <div class="container">
-            <h2>Todo lo que Necesitas para Crecer</h2>
-            <div class="grid">
-                <div class="glass-card animate">
-                    <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
-                    <h3>AI Content Generator</h3>
-                    <p>Genera ideas virales, captions optimizados y hooks irresistibles para TikTok, Instagram y YouTube en segundos.</p>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.1s;">
-                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Analytics Predictivos</h3>
-                    <p>Mide engagement real, predice tendencias y optimiza tu estrategia con datos de IA precisos.</p>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.2s;">
-                    <div class="feature-icon"><i class="fas fa-users"></i></div>
-                    <h3>Colab Finder Automático</h3>
-                    <p>Encuentra marcas y creadores compatibles con tu nicho. Negocia colaboraciones premium sin esfuerzo.</p>
-                </div>
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-inner">
+
+        <!-- Copy -->
+        <div class="hero-copy">
+            <div class="hero-eyebrow">
+                <span class="dot"></span>
+                Plataforma para Creadores
+            </div>
+            <h1>
+                Tu contenido,<br>
+                <span class="line-gold">al siguiente nivel.</span><br>
+                <span class="line-ghost">Every single day.</span>
+            </h1>
+            <p class="hero-sub">
+                FounderFlow unifica IA de contenido, analíticas reales, gestión de colaboraciones y tu media kit profesional. Todo lo que un creador serio necesita, en un solo dashboard.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-gold btn-xl" onclick="openModal()">
+                    <i class="fas fa-rocket"></i> Empieza Gratis
+                </button>
+                <a href="#demos" class="btn btn-ghost btn-lg">
+                    <i class="fas fa-play"></i> Ver cómo funciona
+                </a>
+            </div>
+            <div class="hero-proof">
+                <div class="proof-item"><i class="fas fa-check-circle"></i> Sin tarjeta de crédito</div>
+                <div class="proof-sep"></div>
+                <div class="proof-item"><i class="fas fa-check-circle"></i> Setup en 2 minutos</div>
+                <div class="proof-sep"></div>
+                <div class="proof-item"><i class="fas fa-check-circle"></i> +5.000 creadores activos</div>
             </div>
         </div>
-    </section>
 
-    <!-- Dashboard Preview -->
-    <section id="dashboard" style="background: rgba(255,215,0,0.02);">
-        <div class="container">
-            <h2>Tu Dashboard en Acción</h2>
-            <div class="grid stats-grid">
-                <div class="glass-card animate">
-                    <div class="stat-number" data-target="12500">0</div>
-                    <div class="stat-label">Seguidores Nuevos</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-trend-up"></i> +24% este mes</div>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.1s;">
-                    <div class="stat-number" data-target="1540">€0</div>
-                    <div class="stat-label">Ingresos Generados</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-trend-up"></i> +18%</div>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.2s;">
-                    <div class="stat-number" data-target="8.5">0%</div>
-                    <div class="stat-label">Engagement Rate</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-trend-up"></i> +12 pts</div>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.3s;">
-                    <div class="stat-number" data-target="47">0</div>
-                    <div class="stat-label">Colaboraciones Cerradas</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-trend-up"></i> +5 este mes</div>
+        <!-- Visual -->
+        <div class="hero-visual">
+            <!-- Floating badge top-right -->
+            <div class="hero-badge2">
+                <div class="badge2-icon"><i class="fas fa-arrow-trend-up"></i></div>
+                <div class="badge2-text">
+                    <div class="val">+24% engagement</div>
+                    <div class="lbl">Media de usuarios PRO</div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Testimonials -->
-    <section id="testimonials">
-        <div class="container">
-            <h2>Resultados Reales</h2>
-            <div class="grid testimonial-grid">
-                <div class="glass-card animate">
-                    <p>"<strong>De 0 a 45K seguidores en 4 meses</strong>. FounderFlow me dio las herramientas exactas para nicho dental."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">JD</div>
-                        Dra. Julia DentalPro
+            <div class="video-frame" id="hero-video-frame">
+                <div class="video-placeholder" id="hero-placeholder">
+                    <div class="play-ring">
+                        <button class="play-btn" onclick="loadHeroVideo()" title="Ver demo">
+                            <i class="fas fa-play"></i>
+                        </button>
                     </div>
+                    <p>Mira el dashboard en acción — 2 min de demo</p>
                 </div>
-                <div class="glass-card animate" style="animation-delay: 0.1s;">
-                    <p>"<strong>€12K en colaboraciones el primer trimestre</strong>. El Colab Finder es brutal."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">MR</div>
-                        Marcos RealEstate
-                    </div>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.2s;">
-                    <p>"<strong>Mi engagement subió 18 puntos</strong>. Los analytics predictivos son otro nivel."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">LC</div>
-                        Lucía CentroEstética
-                    </div>
+                <!-- Reemplaza el src con tu vídeo de YouTube -->
+                <iframe
+                    id="hero-embed"
+                    class="video-embed"
+                    src=""
+                    data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1"
+                    title="FounderFlow Demo"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Floating badge bottom-left -->
+            <div class="hero-badge">
+                <div class="badge-icon"><i class="fas fa-fire"></i></div>
+                <div class="badge-text">
+                    <div class="val">14 días de racha 🔥</div>
+                    <div class="lbl">Publicando sin parar</div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Pricing -->
-    <section id="pricing">
-        <div class="container">
-            <h2>Elige tu Plan</h2>
-            <div class="pricing-toggle">
-                <button class="toggle-btn active" onclick="togglePricing('monthly')">Mensual</button>
-                <button class="toggle-btn" onclick="togglePricing('yearly')">Anual <span style="font-size: 0.85rem;">(20% OFF)</span></button>
-            </div>
-            <div class="grid">
-                <div class="glass-card animate">
-                    <h3>Starter</h3>
-                    <div class="price" id="starter-monthly">€29</div>
-                    <div class="price" id="starter-yearly" style="display: none;">€23</div>
-                    <div class="price-period" style="display: none;" id="starter-period">/mes facturado anualmente</div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> AI Content Generator</li>
-                        <li><i class="fas fa-check"></i> Analytics Básicos</li>
-                        <li><i class="fas fa-check"></i> 5 Colabs/mes</li>
-                    </ul>
-                    <button class="hero-cta" style="width: 100%; margin-top: 1.5rem;" onclick="openModal()">Empezar Starter</button>
-                </div>
-                <div class="glass-card animate" style="animation-delay: 0.1s; position: relative;">
-                    <div style="position: absolute; top: 1rem; right: 1rem; background: var(--accent-gold); color: #000; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">POPULAR</div>
-                    <h3>Pro</h3>
-                    <div class="price" id="pro-monthly">€79</div>
-                    <div class="price" id="pro-yearly" style="display: none;">€63</div>
-                    <div class="price-period" style="display: none;" id="pro-period">/mes facturado anualmente</div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Todo en Starter</li>
-                        <li><i class="fas fa-check"></i> Analytics Predictivos</li>
-                        <li><i class="fas fa-check"></i> Colabs Ilimitadas</li>
-                        <li><i class="fas fa-check"></i> Media Kit PRO</li>
-                        <li><i class="fas fa-check"></i> Soporte Prioritario</li>
-                    </ul>
-                    <button class="hero-cta" style="width: 100%; margin-top: 1.5rem;" onclick="openModal()">Elegir Pro</button>
-                </div>
+    </div>
+</section>
+
+<!-- LOGOS BAR -->
+<div class="logos-bar">
+    <div class="logos-inner">
+        <span class="logos-label">Creadores que ya confían en nosotros</span>
+        <span class="logo-badge">📱 TikTok Creators</span>
+        <span class="logo-badge">📸 Instagram Influencers</span>
+        <span class="logo-badge">🎥 YouTubers</span>
+        <span class="logo-badge">💼 LinkedIn Creators</span>
+        <span class="logo-badge">🎵 Música & Arte</span>
+        <span class="logo-badge">💰 Finance Creators</span>
+    </div>
+</div>
+
+<!-- STATS -->
+<section class="section section-alt" id="stats">
+    <div class="wrap">
+        <div class="section-header-split" style="margin-bottom:3rem;">
+            <div>
+                <div class="section-label"><span></span>Resultados reales</div>
+                <div class="section-title">Números que <span class="accent">hablan solos</span></div>
             </div>
         </div>
-    </section>
+        <div class="stats-row">
+            <div class="stat-card reveal">
+                <div class="num" data-target="12500" id="s1">0</div>
+                <div class="lbl">Seguidores promedio tras 3 meses</div>
+                <div class="trend"><i class="fas fa-arrow-trend-up"></i> +24% respecto al anterior</div>
+            </div>
+            <div class="stat-card reveal reveal-d1">
+                <div class="num" data-prefix="€" data-target="1540" id="s2">€0</div>
+                <div class="lbl">Ingresos medios / mes en colabs</div>
+                <div class="trend"><i class="fas fa-arrow-trend-up"></i> +18% este trimestre</div>
+            </div>
+            <div class="stat-card reveal reveal-d2">
+                <div class="num" data-suffix="%" data-target="8.5" id="s3">0%</div>
+                <div class="lbl">Engagement Rate medio</div>
+                <div class="trend"><i class="fas fa-arrow-trend-up"></i> 4× la media del sector</div>
+            </div>
+            <div class="stat-card reveal reveal-d3">
+                <div class="num" data-target="5200" id="s4">0</div>
+                <div class="lbl">Creadores activos en la plataforma</div>
+                <div class="trend"><i class="fas fa-arrow-trend-up"></i> +320 este mes</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <!-- CTA Final -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2 style="font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 1.5rem;">¿Listo para Escalar?</h2>
-                <p style="font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9;">Únete a +5K creadores que ya generan con FounderFlow.</p>
-                <button class="hero-cta" onclick="openModal()" style="font-size: 1.25rem; padding: 1.3rem 4rem;">
-                    <i class="fas fa-rocket"></i> Crear Cuenta Gratis
+<!-- FEATURES -->
+<section class="section" id="features">
+    <div class="wrap">
+        <div class="section-header-split">
+            <div>
+                <div class="section-label"><span></span>Funcionalidades</div>
+                <div class="section-title">Todo lo que necesitas<br><span class="ghost">en un solo lugar</span></div>
+                <p class="section-sub" style="margin-top:.85rem;">Desde la generación de ideas hasta el cobro de colaboraciones. Sin saltar entre herramientas.</p>
+            </div>
+        </div>
+        <div class="features-grid">
+            <div class="feat-card reveal">
+                <div class="feat-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                <h3>AI Content Generator</h3>
+                <p>Genera hooks, captions y guiones completos en segundos. Personalizado a tu nicho y plataforma. Con Groq AI (LLaMA 3.3).</p>
+                <span class="feat-pill">IA integrada</span>
+            </div>
+            <div class="feat-card reveal reveal-d1">
+                <div class="feat-icon"><i class="fas fa-chart-bar"></i></div>
+                <h3>Analíticas Reales</h3>
+                <p>Introduce tus métricas post a post. El dashboard te dice qué plataforma, nicho y tipo de contenido te rinde más.</p>
+                <span class="feat-pill">Nuevo</span>
+            </div>
+            <div class="feat-card reveal reveal-d2">
+                <div class="feat-icon"><i class="fas fa-lightbulb"></i></div>
+                <h3>Banco de Ideas</h3>
+                <p>Genera 15 ideas de contenido listas para producir. Guárdalas con un clic y consúmelas cuando estés en modo creación.</p>
+            </div>
+            <div class="feat-card reveal reveal-d3">
+                <div class="feat-icon"><i class="fas fa-list-check"></i></div>
+                <h3>Gestor de Producción</h3>
+                <p>Cada post tiene su propio checklist: grabar → editar → thumbnail → caption → publicar → interactuar. Cero pasos olvidados.</p>
+            </div>
+            <div class="feat-card reveal">
+                <div class="feat-icon"><i class="fas fa-fire"></i></div>
+                <h3>Racha de Publicación</h3>
+                <p>Visualiza cuántos días seguidos has publicado. El efecto Duolingo, pero para tu crecimiento como creador.</p>
+                <span class="feat-pill">Motivacional</span>
+            </div>
+            <div class="feat-card reveal reveal-d1">
+                <div class="feat-icon"><i class="fas fa-file-invoice"></i></div>
+                <h3>Media Kit Automático</h3>
+                <p>Con tus datos del perfil y stats, genera un media kit exportable en HTML para enviar a marcas. Tu tarjeta de presentación PRO.</p>
+                <span class="feat-pill">Exportable</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DEMOS — collapsible -->
+<section class="section section-alt" id="demos">
+    <div class="wrap">
+        <div class="section-header-split">
+            <div>
+                <div class="section-label"><span></span>Demos en vídeo</div>
+                <div class="section-title">Ve cada feature<br><span class="accent">en acción</span></div>
+                <p class="section-sub" style="margin-top:.85rem;">Despliega cualquier sección para ver la demo completa. Sin rodeos.</p>
+            </div>
+            <div>
+                <button class="btn btn-ghost" onclick="toggleAllDemos()" id="demos-toggle-btn">
+                    <i class="fas fa-chevrons-down" id="demos-icon"></i> Expandir todo
                 </button>
             </div>
         </div>
-    </section>
 
-    <!-- Modal -->
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3 style="margin-bottom: 1.5rem; font-family: 'Cormorant Garamond', serif;">Empieza Gratis en 30s</h3>
-            <form id="signup-form">
-                <input type="email" class="form-input" placeholder="tu@email.com" required>
-                <input type="password" class="form-input" placeholder="Contraseña" required>
-                <button type="submit" class="hero-cta" style="width: 100%;">Crear Cuenta Gratis</button>
-                <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
-                    Sin tarjeta. Cancela cuando quieras.
+        <div class="demos-list" id="demos-list">
+
+            <!-- Demo 1 -->
+            <div class="demo-item" id="demo-1">
+                <div class="demo-trigger" onclick="toggleDemo('demo-1')">
+                    <div class="demo-num">01</div>
+                    <div class="demo-meta">
+                        <strong>AI Content Generator & Programador</strong>
+                        <span>Genera contenido viral, guarda posts y programa tu calendario</span>
+                        <div class="demo-tags">
+                            <span class="demo-tag">IA</span>
+                            <span class="demo-tag">Calendario</span>
+                            <span class="demo-tag">Nichos</span>
+                        </div>
+                    </div>
+                    <div class="demo-arrow"><i class="fas fa-chevron-down"></i></div>
                 </div>
-            </form>
+                <div class="demo-body">
+                    <div class="demo-body-inner">
+                        <div class="demo-video-wrap">
+                            <div class="demo-video-placeholder" id="ph-demo-1">
+                                <button class="play-mini" onclick="loadDemoVideo('demo-1','https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0')">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <p>Demo: Generador de contenido con IA</p>
+                                <div class="hint"><i class="fas fa-circle-info"></i> Añade tu URL de YouTube arriba en el código</div>
+                            </div>
+                            <iframe id="embed-demo-1" class="demo-video-embed" title="Demo AI Generator" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="demo-desc">
+                            Selecciona tu nicho entre 15 categorías, elige la plataforma y tipo de contenido. La IA (Groq LLaMA 3.3-70B) genera 3 ideas completas con hook, desarrollo, caption y hashtags. Guárdalas directamente como borrador en tu calendario.
+                        </div>
+                        <div class="demo-features-mini">
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Groq AI (LLaMA 3.3)</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> 15 nichos</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> 8 plataformas</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Drag & drop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 2 -->
+            <div class="demo-item" id="demo-2">
+                <div class="demo-trigger" onclick="toggleDemo('demo-2')">
+                    <div class="demo-num">02</div>
+                    <div class="demo-meta">
+                        <strong>Analíticas Reales de Rendimiento</strong>
+                        <span>Registra tus métricas y descubre qué contenido funciona</span>
+                        <div class="demo-tags">
+                            <span class="demo-tag">Analytics</span>
+                            <span class="demo-tag">Engagement</span>
+                            <span class="demo-tag">Insights</span>
+                        </div>
+                    </div>
+                    <div class="demo-arrow"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="demo-body">
+                    <div class="demo-body-inner">
+                        <div class="demo-video-wrap">
+                            <div class="demo-video-placeholder" id="ph-demo-2">
+                                <button class="play-mini" onclick="loadDemoVideo('demo-2','https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0')">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <p>Demo: Panel de analíticas reales</p>
+                                <div class="hint"><i class="fas fa-circle-info"></i> Añade tu URL de YouTube arriba en el código</div>
+                            </div>
+                            <iframe id="embed-demo-2" class="demo-video-embed" title="Demo Analytics" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="demo-desc">
+                            Introduce manualmente las métricas de cada post (views, likes, shares). El dashboard calcula el engagement, compara plataformas y te dice cuál rinde mejor. Con el tiempo, construyes tu propio cuadro de mando personal.
+                        </div>
+                        <div class="demo-features-mini">
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Engagement automático</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Comparativa por plataforma</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Top performer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 3 -->
+            <div class="demo-item" id="demo-3">
+                <div class="demo-trigger" onclick="toggleDemo('demo-3')">
+                    <div class="demo-num">03</div>
+                    <div class="demo-meta">
+                        <strong>Banco de Ideas & Racha de Publicación</strong>
+                        <span>Genera 15 ideas y mantén tu streak diario activo</span>
+                        <div class="demo-tags">
+                            <span class="demo-tag">Ideas</span>
+                            <span class="demo-tag">Streak</span>
+                            <span class="demo-tag">Consistencia</span>
+                        </div>
+                    </div>
+                    <div class="demo-arrow"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="demo-body">
+                    <div class="demo-body-inner">
+                        <div class="demo-video-wrap">
+                            <div class="demo-video-placeholder" id="ph-demo-3">
+                                <button class="play-mini" onclick="loadDemoVideo('demo-3','https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0')">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <p>Demo: Banco de ideas + streak</p>
+                                <div class="hint"><i class="fas fa-circle-info"></i> Añade tu URL de YouTube arriba en el código</div>
+                            </div>
+                            <iframe id="embed-demo-3" class="demo-video-embed" title="Demo Ideas Bank" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="demo-desc">
+                            Genera un banco de 15 ideas personalizadas para tu nicho con un clic. Guarda las que más te gusten, trabájalas cuando estés en modo producción. El indicador de racha te motiva a publicar cada día, igual que Duolingo.
+                        </div>
+                        <div class="demo-features-mini">
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> 15 ideas por nicho</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Guardar con un clic</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Streak de 7 días</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Mejor racha histórica</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo 4 -->
+            <div class="demo-item" id="demo-4">
+                <div class="demo-trigger" onclick="toggleDemo('demo-4')">
+                    <div class="demo-num">04</div>
+                    <div class="demo-meta">
+                        <strong>Gestor de Producción & Media Kit</strong>
+                        <span>Checklist por post y media kit automático para marcas</span>
+                        <div class="demo-tags">
+                            <span class="demo-tag">Producción</span>
+                            <span class="demo-tag">Media Kit</span>
+                            <span class="demo-tag">Colaboraciones</span>
+                        </div>
+                    </div>
+                    <div class="demo-arrow"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="demo-body">
+                    <div class="demo-body-inner">
+                        <div class="demo-video-wrap">
+                            <div class="demo-video-placeholder" id="ph-demo-4">
+                                <button class="play-mini" onclick="loadDemoVideo('demo-4','https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0')">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <p>Demo: Checklist + Media Kit exportable</p>
+                                <div class="hint"><i class="fas fa-circle-info"></i> Añade tu URL de YouTube arriba en el código</div>
+                            </div>
+                            <iframe id="embed-demo-4" class="demo-video-embed" title="Demo Media Kit" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="demo-desc">
+                            Cada post tiene su checklist: grabar → editar → thumbnail → caption → publicar → interactuar. El progreso se muestra en barra. Y con tus datos de perfil y stats, genera un media kit exportable en HTML para enviar directamente a marcas.
+                        </div>
+                        <div class="demo-features-mini">
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> 6 pasos por post</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Barra de progreso</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Media kit HTML</span>
+                            <span class="demo-feat-chip"><i class="fas fa-check"></i> Rate card configurable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</section>
 
-    <script>
-        // Smooth Scroll & Reveal
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, idx) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => entry.target.classList.add('animate'), idx * 150);
-                }
-            });
-        }, observerOptions);
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonios">
+    <div class="wrap">
+        <div class="section-header-split" style="margin-bottom:3.5rem;">
+            <div>
+                <div class="section-label"><span></span>Casos reales</div>
+                <div class="section-title">Creadores que ya<br><span class="accent">están escalando</span></div>
+            </div>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="testi-quote">
+                    "Antes tardaba 3 horas en planificar la semana. Ahora con FounderFlow lo tengo en 20 minutos. <strong>El banco de ideas es mi favorito</strong> — genera cosas que yo nunca hubiera pensado para mi nicho."
+                </div>
+                <div class="testi-author">
+                    <div class="testi-av">SR</div>
+                    <div class="testi-info">
+                        <div class="name">Sara R.</div>
+                        <div class="role">Creadora de Finanzas Personales · 41K seguidores</div>
+                    </div>
+                    <div class="testi-metric">
+                        <div class="mv">+41K</div>
+                        <div class="ml">en 5 meses</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal reveal-d1">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="testi-quote">
+                    "Cerré <strong>€8.500 en colaboraciones en 3 meses</strong> gracias al media kit que genera FounderFlow. Las marcas abren el PDF y ya ven todo lo que necesitan. El proceso de venta se volvió mucho más serio."
+                </div>
+                <div class="testi-author">
+                    <div class="testi-av">MA</div>
+                    <div class="testi-info">
+                        <div class="name">Miguel A.</div>
+                        <div class="role">Lifestyle & Travel Creator · 92K seguidores</div>
+                    </div>
+                    <div class="testi-metric">
+                        <div class="mv">€8.5K</div>
+                        <div class="ml">en colabs / Q1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal reveal-d2">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="testi-quote">
+                    "La racha de publicación es lo más adictivo. <strong>Llevo 34 días seguidos publicando</strong>, algo que nunca había conseguido. Las analíticas me demuestran que mi TikTok funciona mejor que Instagram — nunca lo habría sabido sin los datos."
+                </div>
+                <div class="testi-author">
+                    <div class="testi-av">CL</div>
+                    <div class="testi-info">
+                        <div class="name">Carla L.</div>
+                        <div class="role">Fitness & Nutrición · 28K seguidores</div>
+                    </div>
+                    <div class="testi-metric">
+                        <div class="mv">34 días</div>
+                        <div class="ml">racha activa 🔥</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        document.querySelectorAll('.glass-card, section h2').forEach(el => observer.observe(el));
+<!-- PRICING -->
+<section class="section section-alt" id="precios">
+    <div class="wrap">
+        <div style="text-align:center;margin-bottom:1rem;">
+            <div class="section-label" style="justify-content:center;"><span></span>Precios</div>
+            <div class="section-title" style="text-align:center;">Simple. <span class="accent">Sin sorpresas.</span></div>
+        </div>
+        <div class="pricing-toggle">
+            <div class="toggle-wrap">
+                <button class="toggle-opt active" onclick="switchPlan('monthly', this)">Mensual</button>
+                <button class="toggle-opt" onclick="switchPlan('yearly', this)">Anual</button>
+            </div>
+            <span class="save-badge">Ahorra 20%</span>
+        </div>
+        <div class="pricing-grid">
+            <div class="plan-card reveal">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price" id="p-starter">€29<span>/mes</span></div>
+                <div class="plan-period" id="pp-starter">Facturado mensualmente</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-feats">
+                    <li><i class="fas fa-check"></i> <span>AI Content Generator (<strong>50 gen/mes</strong>)</span></li>
+                    <li><i class="fas fa-check"></i> <span>Calendario editorial</span></li>
+                    <li><i class="fas fa-check"></i> <span>Banco de ideas</span></li>
+                    <li><i class="fas fa-check"></i> <span>Racha de publicación</span></li>
+                    <li><i class="fas fa-check"></i> <span>5 colaboraciones activas</span></li>
+                </ul>
+                <button class="btn btn-ghost modal-cta" onclick="openModal()">Empezar con Starter</button>
+            </div>
+            <div class="plan-card featured reveal reveal-d1">
+                <span class="plan-popular">Más Popular</span>
+                <div class="plan-name">Pro</div>
+                <div class="plan-price" id="p-pro">€79<span>/mes</span></div>
+                <div class="plan-period" id="pp-pro">Facturado mensualmente</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-feats">
+                    <li><i class="fas fa-check"></i> <span>Todo en Starter</span></li>
+                    <li><i class="fas fa-check"></i> <span>AI ilimitado (<strong>sin límites</strong>)</span></li>
+                    <li><i class="fas fa-check"></i> <span>Analíticas reales multi-plataforma</span></li>
+                    <li><i class="fas fa-check"></i> <span>Gestor de producción por post</span></li>
+                    <li><i class="fas fa-check"></i> <span>Media Kit exportable PRO</span></li>
+                    <li><i class="fas fa-check"></i> <span>Colaboraciones ilimitadas</span></li>
+                    <li><i class="fas fa-check"></i> <span>Exportar CSV / JSON</span></li>
+                    <li><i class="fas fa-check"></i> <span>Soporte prioritario</span></li>
+                </ul>
+                <button class="btn btn-gold modal-cta" onclick="openModal()">Elegir Pro</button>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // Nav scroll effect
-        window.addEventListener('scroll', () => {
-            document.querySelector('.nav').style.background = 
-                window.scrollY > 50 ? 'rgba(8,11,18,0.98)' : 'rgba(8,11,18,0.92)';
-        });
+<!-- CTA FINAL -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <div class="section-label" style="justify-content:center;"><span></span>Empieza ya</div>
+        <div class="cta-title">
+            ¿Listo para escalar<br>
+            <span style="background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">de verdad?</span>
+        </div>
+        <p class="cta-sub">Únete a más de 5.000 creadores que ya están generando contenido, consiguiendo colaboraciones y midiendo sus resultados con FounderFlow.</p>
+        <div class="cta-actions">
+            <button class="btn btn-gold btn-xl" onclick="openModal()">
+                <i class="fas fa-rocket"></i> Crear Cuenta Gratis
+            </button>
+            <a href="./dashboard.html" class="btn btn-ghost btn-lg">
+                <i class="fas fa-gauge-high"></i> Ver Dashboard Demo
+            </a>
+        </div>
+        <div class="cta-fine">
+            <span><i class="fas fa-check-circle"></i> Sin tarjeta de crédito</span>
+            <span><i class="fas fa-check-circle"></i> Cancela cuando quieras</span>
+            <span><i class="fas fa-check-circle"></i> Setup en 2 minutos</span>
+        </div>
+    </div>
+</section>
 
-        // Modal
-        function openModal() {
-            document.getElementById('modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">FounderFlow <sup style="font-size:.5em;color:var(--gold);">PRO</sup></div>
+        <div class="footer-copy">© 2026 FounderFlow. Hecho para creadores.</div>
+    </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="handleModalClick(event)">
+    <div class="modal-panel">
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-xmark"></i></button>
+        <div class="modal-logo">FounderFlow</div>
+        <div class="modal-sub">Empieza gratis. Sin tarjeta. En 30 segundos.</div>
+        <form id="signup-form">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-input" placeholder="Mínimo 8 caracteres" required>
+            </div>
+            <button type="submit" class="btn btn-gold modal-cta">
+                <i class="fas fa-rocket"></i> Crear Cuenta Gratis
+            </button>
+        </form>
+        <div class="modal-fine">Sin tarjeta de crédito · Cancela cuando quieras</div>
+    </div>
+</div>
+
+<script>
+// ─── Nav scroll ───
+window.addEventListener('scroll',()=>{
+    document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ─── Modal ───
+function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
+function handleModalClick(e){if(e.target===document.getElementById('modal'))closeModal();}
+
+// ─── Hero video ───
+function loadHeroVideo(){
+    const embed=document.getElementById('hero-embed');
+    embed.src=embed.dataset.src;
+    embed.style.display='block';
+    document.getElementById('hero-placeholder').style.display='none';
+}
+
+// ─── Demo accordion ───
+function toggleDemo(id){
+    const item=document.getElementById(id);
+    const isOpen=item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.demo-item.open').forEach(el=>{
+        if(el.id!==id)el.classList.remove('open');
+    });
+    item.classList.toggle('open',!isOpen);
+}
+
+let allOpen=false;
+function toggleAllDemos(){
+    allOpen=!allOpen;
+    document.querySelectorAll('.demo-item').forEach(el=>el.classList.toggle('open',allOpen));
+    document.getElementById('demos-toggle-btn').innerHTML = allOpen
+        ? '<i class="fas fa-chevrons-up"></i> Colapsar todo'
+        : '<i class="fas fa-chevrons-down"></i> Expandir todo';
+}
+
+function loadDemoVideo(demoId,url){
+    const embed=document.getElementById('embed-'+demoId);
+    const ph=document.getElementById('ph-'+demoId);
+    embed.src=url;
+    embed.style.display='block';
+    ph.style.display='none';
+}
+
+// ─── Pricing toggle ───
+const plans={
+    monthly:{ starter:'€29', pro:'€79', period:'Facturado mensualmente' },
+    yearly: { starter:'€23', pro:'€63', period:'/mes · Facturado anualmente' }
+};
+function switchPlan(type,btn){
+    document.querySelectorAll('.toggle-opt').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const p=plans[type];
+    document.getElementById('p-starter').innerHTML=p.starter+'<span>/mes</span>';
+    document.getElementById('p-pro').innerHTML=p.pro+'<span>/mes</span>';
+    document.getElementById('pp-starter').textContent=p.period;
+    document.getElementById('pp-pro').textContent=p.period;
+}
+
+// ─── Scroll reveal ───
+const revealObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ─── Stats counter ───
+function countUp(el){
+    const target=parseFloat(el.dataset.target);
+    const prefix=el.dataset.prefix||'';
+    const suffix=el.dataset.suffix||'';
+    const isFloat=target%1!==0;
+    let cur=0,frame=0,steps=90,inc=target/steps;
+    const tick=()=>{
+        frame++;cur=Math.min(cur+inc,target);
+        const disp=isFloat?cur.toFixed(1):Math.round(cur).toLocaleString('es-ES');
+        el.textContent=prefix+disp+suffix;
+        if(frame<steps)requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+}
+const statObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+        if(e.isIntersecting){
+            e.currentTarget.querySelectorAll('[data-target]').forEach(countUp);
+            statObs.unobserve(e.currentTarget);
         }
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = '';
-        }
+    });
+},{threshold:0.2});
+const statsSection=document.getElementById('stats');
+if(statsSection)statObs.observe(statsSection);
 
-        // Pricing Toggle
-        function togglePricing(plan) {
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const monthlyPrices = document.querySelectorAll('[id$="-monthly"]');
-            const yearlyPrices = document.querySelectorAll('[id$="-yearly"]');
-            const periods = document.querySelectorAll('[id$="-period"]');
-            
-            if (plan === 'yearly') {
-                monthlyPrices.forEach(p => p.style.display = 'none');
-                yearlyPrices.forEach(p => p.style.display = 'block');
-                periods.forEach(p => p.style.display = 'block');
-            } else {
-                monthlyPrices.forEach(p => p.style.display = 'block');
-                yearlyPrices.forEach(p => p.style.display = 'none');
-                periods.forEach(p => p.style.display = 'none');
-            }
-        }
-
-        // Stats Animation
-        function animateStats() {
-            document.querySelectorAll('.stat-number').forEach(stat => {
-                const target = parseFloat(stat.dataset.target);
-                const current = parseFloat(stat.textContent.replace(/[^0-9.-]+/g, '')) || 0;
-                const increment = target / 120;
-                
-                if (current < target) {
-                    stat.textContent = (current + increment).toLocaleString() + (stat.textContent.includes('€') ? '€' : '%');
-                    requestAnimationFrame(animateStats);
-                } else {
-                    stat.textContent = target.toLocaleString() + (stat.textContent.includes('€') ? '€' : '%');
-                }
-            });
-        }
-
-        // Trigger stats when dashboard is visible
-        const statsObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        });
-        statsObserver.observe(document.getElementById('dashboard'));
-
-        // Form Submission
-        document.getElementById('signup-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = this.querySelector('input[type="email"]').value;
-            const userName = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
-            
-            // Simular guardado
-            const user = {
-                name: `${userName} (Demo)`,
-                avatar: userName.slice(0,2).toUpperCase(),
-                email: email,
-                joined: new Date().toLocaleDateString('es-ES'),
-                plan: 'Pro'
-            };
-            
-            localStorage.setItem('founderflow_user', JSON.stringify(user));
-            
-            // Feedback y redirección
-            alert(`¡Bienvenido ${user.name}! 🎉 Redirigiendo al Dashboard PRO...`);
-            closeModal();
-            
-            setTimeout(() => {
-                window.location.href = './dashboard.html';
-            }, 1200);
-        });
-
-        // Close modal on outside click
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-    </script>
+// ─── Form signup ───
+document.getElementById('signup-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    const email=this.querySelector('input[type="email"]').value;
+    const name=email.split('@')[0];
+    const capName=name.charAt(0).toUpperCase()+name.slice(1);
+    localStorage.setItem('founderflow_user',JSON.stringify({
+        name:capName,avatar:capName.slice(0,2).toUpperCase(),
+        bio:'Creador de contenido PRO',email,link:'',theme:'dark',nicho:'General / Lifestyle'
+    }));
+    closeModal();
+    setTimeout(()=>window.location.href='./dashboard.html',300);
+});
+</script>
 </body>
 </html>

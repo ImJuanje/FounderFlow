@@ -761,3 +761,348 @@ canvas { display: block; max-width: 100%; }
   color: var(--gold-solid);
   font-weight: 600;
 }
+
+.use-idea-btn {
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 0.4rem;
+  background: transparent;
+  border: var(--gold-border);
+  border-radius: 50px;
+  color: var(--text-primary);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.use-idea-btn:hover {
+  background: rgba(255,215,0,0.1);
+  border-color: var(--gold-solid);
+}
+
+/* ═══════════════════════════════════════════════
+   MODALES (estilo consistente)
+═══════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background: var(--bg2);
+    border: var(--gold-border-hi);
+    border-radius: var(--r-xl);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow-gold), var(--shadow-deep);
+    transform: scale(0.95);
+    transition: transform 0.3s var(--ease);
+}
+
+.modal-overlay.open .modal-container {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.75rem;
+    border-bottom: var(--gold-border);
+}
+
+.modal-title {
+    font-family: var(--ff-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.modal-title i {
+    -webkit-text-fill-color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: var(--gold-border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: var(--t);
+}
+
+.modal-close:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--gold-solid);
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 1.75rem;
+}
+
+.modal-footer {
+    padding: 1.25rem 1.75rem;
+    border-top: var(--gold-border);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+/* Modal específico para métricas */
+.modal-metrics .modal-container {
+    max-width: 480px;
+}
+
+.metrics-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.metrics-form-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.metrics-form-group input,
+.metrics-form-group select {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: var(--gold-border);
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    font-family: var(--ff-body);
+    font-size: 0.95rem;
+    transition: var(--t);
+    outline: none;
+}
+
+.metrics-form-group input:focus,
+.metrics-form-group select:focus {
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.metrics-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Modal para editar post */
+.modal-edit .modal-container {
+    max-width: 550px;
+}
+
+.edit-post-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 1rem;
+    border: var(--gold-border);
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.edit-post-textarea:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+/* Modal de confirmación */
+.modal-confirm .modal-container {
+    max-width: 400px;
+    text-align: center;
+}
+
+.confirm-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.25rem;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.1);
+    border: var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--gold-solid);
+}
+
+.confirm-message {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Modal de ideas guardadas toast (feedback rápido) */
+.idea-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--bg2);
+    border: var(--gold-border-hi);
+    border-radius: var(--r-md);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-gold);
+    z-index: 2100;
+    transform: translateX(120%);
+    transition: transform 0.3s var(--ease);
+}
+
+.idea-toast.show {
+    transform: translateX(0);
+}
+
+.idea-toast i {
+    font-size: 1.2rem;
+    color: var(--success);
+}
+
+.idea-toast span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Scrollbar dentro de modales */
+.modal-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 99px;
+}
+
+/* Modal Colaboración */
+.modal-collab .modal-container {
+    max-width: 480px;
+}
+
+/* Badge dentro del modal */
+#detail-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-paid {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--success);
+}
+
+.status-pending {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--info);
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+/* MODAL DE CONFIRMACIÓN */
+.modal-confirm .modal-container {
+    max-width: 400px;
+    text-align: center;
+}
+
+.confirm-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.25rem;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.1);
+    border: var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--gold-solid);
+}
+
+.confirm-message {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.25);
+    transform: scale(1.02);
+}

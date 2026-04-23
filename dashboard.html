@@ -165,7 +165,9 @@
         <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
           <span style="font-size:0.82rem; color:var(--text-muted);">Nicho: <strong style="color:var(--gold-solid);" id="ideas-nicho-label">–</strong></span>
           <button class="btn btn-gold btn-sm" onclick="generateIdeas()"><i class="fas fa-wand-magic-sparkles"></i> Generar 15 ideas</button>
-          <button class="btn btn-ghost btn-sm" onclick="toggleSavedIdeas()"><i class="fas fa-bookmark"></i> Guardadas (<span id="saved-count">0</span>)</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSavedIdeasView()">
+            <i class="fas fa-bookmark"></i> 
+            Guardadas (<span id="saved-count">0</span>)</button>
         </div>
       </div>
 
@@ -349,6 +351,243 @@
       <div id="mediakit-preview"></div>
     </div>
   </section>
+
+    <!-- MODAL PARA AÑADIR MÉTRICAS -->
+<div id="modal-metrics" class="modal-overlay">
+    <div class="modal-container modal-metrics">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-chart-simple"></i>
+                Añadir métricas del post
+            </div>
+            <button class="modal-close" onclick="closeModalMetrics()">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="metrics-form-group">
+                <label>Título / descripción del post</label>
+                <input type="text" id="metric-post-title" placeholder="Ej: Review iPhone 15">
+            </div>
+            <div class="metrics-form-group">
+                <label>Plataforma</label>
+                <select id="metric-platform">
+                    <option>📱 TikTok</option>
+                    <option>📸 Instagram Reels</option>
+                    <option>📸 Instagram Feed</option>
+                    <option>🎥 YouTube Shorts</option>
+                    <option>🐦 X / Twitter</option>
+                    <option>💼 LinkedIn</option>
+                </select>
+            </div>
+            <div class="metrics-form-row">
+                <div class="metrics-form-group">
+                    <label>Views</label>
+                    <input type="number" id="metric-views" placeholder="0">
+                </div>
+                <div class="metrics-form-group">
+                    <label>Likes</label>
+                    <input type="number" id="metric-likes" placeholder="0">
+                </div>
+                <div class="metrics-form-group">
+                    <label>Shares</label>
+                    <input type="number" id="metric-shares" placeholder="0">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModalMetrics()">Cancelar</button>
+            <button class="btn btn-gold" onclick="saveMetricsFromModal()">Guardar métricas</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA AÑADIR COLABORACIÓN -->
+<div id="modal-collaboration" class="modal-overlay">
+    <div class="modal-container modal-collab">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-handshake"></i>
+                Nueva Colaboración
+            </div>
+            <button class="modal-close" onclick="closeModalCollaboration()">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="metrics-form-group">
+                <label>Nombre del cliente / marca</label>
+                <input type="text" id="collab-client" placeholder="Ej: Nike, Adidas, Spotify...">
+            </div>
+            <div class="metrics-form-group">
+                <label>Importe pactado (€)</label>
+                <input type="number" id="collab-amount" placeholder="1500">
+            </div>
+            <div class="metrics-form-group">
+                <label>Estado</label>
+                <select id="collab-status">
+                    <option value="pending">📋 Pendiente</option>
+                    <option value="paid">✅ Cobrado</option>
+                    <option value="cancelled">❌ Cancelado</option>
+                </select>
+            </div>
+            <div class="metrics-form-group">
+                <label>Fecha de publicación / entrega</label>
+                <input type="date" id="collab-date">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModalCollaboration()">Cancelar</button>
+            <button class="btn btn-gold" onclick="saveCollaborationFromModal()">Guardar colaboración</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA EDITAR COLABORACIÓN -->
+<div id="modal-edit-collab" class="modal-overlay">
+    <div class="modal-container modal-collab">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-pen"></i>
+                Editar Colaboración
+            </div>
+            <button class="modal-close" onclick="closeModalEditCollaboration()">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="metrics-form-group">
+                <label>Nombre del cliente / marca</label>
+                <input type="text" id="edit-collab-client" placeholder="Ej: Nike, Adidas, Spotify...">
+            </div>
+            <div class="metrics-form-group">
+                <label>Importe pactado (€)</label>
+                <input type="number" id="edit-collab-amount" placeholder="1500">
+            </div>
+            <div class="metrics-form-group">
+                <label>Estado</label>
+                <select id="edit-collab-status">
+                    <option value="pending">📋 Pendiente</option>
+                    <option value="paid">✅ Cobrado</option>
+                    <option value="cancelled">❌ Cancelado</option>
+                </select>
+            </div>
+            <div class="metrics-form-group">
+                <label>Fecha de publicación / entrega</label>
+                <input type="date" id="edit-collab-date">
+            </div>
+            <input type="hidden" id="edit-collab-index">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModalEditCollaboration()">Cancelar</button>
+            <button class="btn btn-gold" onclick="saveEditCollaboration()">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA EDITAR POST -->
+<div id="modal-edit-post" class="modal-overlay">
+    <div class="modal-container modal-edit">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-pen"></i>
+                Editar post
+            </div>
+            <button class="modal-close" onclick="closeModalEditPost()">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <textarea id="edit-post-text" class="edit-post-textarea" placeholder="Escribe el contenido de tu post..."></textarea>
+            <input type="hidden" id="edit-post-index">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModalEditPost()">Cancelar</button>
+            <button class="btn btn-gold" onclick="saveEditPost()">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE CONFIRMACIÓN -->
+<div id="modal-confirm" class="modal-overlay">
+    <div class="modal-container modal-confirm">
+        <div class="modal-body" style="text-align:center;">
+            <div class="confirm-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="confirm-message" id="confirm-message">
+                ¿Estás seguro de que quieres eliminar este elemento?
+            </div>
+            <div class="confirm-actions">
+                <button class="btn btn-ghost" onclick="closeModalConfirm()">Cancelar</button>
+                <button class="btn btn-danger" id="confirm-action-btn" onclick="executeConfirmAction()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA VER DETALLE DE COLABORACIÓN -->
+<div id="modal-collab-detail" class="modal-overlay">
+    <div class="modal-container modal-collab">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-receipt"></i>
+                Detalle de Colaboración
+            </div>
+            <button class="modal-close" onclick="closeModalCollabDetail()">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">
+                <div>
+                    <div style="font-size:0.75rem; color:var(--muted);">Cliente</div>
+                    <div style="font-size:1.1rem; font-weight:600;" id="detail-client">-</div>
+                </div>
+                <div>
+                    <div style="font-size:0.75rem; color:var(--muted);">Importe</div>
+                    <div style="font-size:1.3rem; font-weight:700; color:var(--gold-solid);" id="detail-amount">-</div>
+                </div>
+            </div>
+            <div style="margin-bottom:1rem;">
+                <div style="font-size:0.75rem; color:var(--muted);">Estado</div>
+                <div><span id="detail-status" class="badge">-</span></div>
+            </div>
+            <div style="margin-bottom:1rem;">
+                <div style="font-size:0.75rem; color:var(--muted);">Fecha de entrega</div>
+                <div id="detail-date">-</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModalCollabDetail()">Cerrar</button>
+            <button class="btn btn-gold" id="edit-from-detail-btn" onclick="editFromDetail()">Editar</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST PARA IDEAS GUARDADAS -->
+<div id="idea-saved-toast" class="idea-toast">
+    <i class="fas fa-check-circle"></i>
+    <span>Idea guardada en tu banco personal</span>
+</div>
+
+<!-- MODAL DE CONFIRMACIÓN (reutilizable para cerrar sesión, eliminar, etc.) -->
+<div id="modal-confirm" class="modal-overlay">
+    <div class="modal-container modal-confirm">
+        <div class="modal-body" style="text-align:center;">
+            <div class="confirm-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <div class="confirm-message" id="confirm-message">
+                ¿Cerrar sesión?
+            </div>
+            <div class="confirm-actions">
+                <button class="btn btn-ghost" onclick="closeModalConfirm()">Cancelar</button>
+                <button class="btn btn-danger" id="confirm-action-btn" onclick="executeConfirmAction()">Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+</div>
 
   <script src="dashboard.js"></script>
 </body>

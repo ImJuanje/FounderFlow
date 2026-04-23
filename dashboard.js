@@ -20,7 +20,7 @@ let collaborations = JSON.parse(localStorage.getItem('founderflow_collabs')) || 
   { id: 2, client: 'LuxHomes RE', status: 'pending', amount: 3000, date: '2026-05-20', icon: 'fas fa-building', color: '#3b82f6' },
 ];
 let metrics = JSON.parse(localStorage.getItem('founderflow_metrics')) || [];
-let savedIdeas = JSON.parse(localStorage.getItem('founderflow_ideas')) || [];
+let savedIdeas = JSON.parse(localStorage.getItem('founderflowideas')) || [];
 let postChecklists = JSON.parse(localStorage.getItem('founderflow_checklists')) || {};
 let streakData = JSON.parse(localStorage.getItem('founderflow_streak')) || { current: 0, best: 0, days: [] };
 
@@ -59,9 +59,9 @@ window.addEventListener('load', () => {
   renderCalendar();
   renderStreak();
   renderMetrics();
-  renderSavedIdeas();
   updateIdeasNichoLabel();
   generateMediaKit();
+  updateSavedCount();
 
   showNotif('🚀 FounderFlow PRO cargado – ¡todo al 100%!', 'success');
 });
@@ -252,13 +252,7 @@ function renderCalendar() {
     ctx.fillStyle = colors[i % colors.length];
     ctx.shadowBlur = 8;
     ctx.shadowColor = colors[i % colors.length];
-    if (ctx.roundRect) {
-      ctx.beginPath();
-      ctx.roundRect(x, y, barW, barH, 6);
-      ctx.fill();
-    } else {
-      ctx.fillRect(x, y, barW, barH);
-    }
+    ctx.fillRect(x, y, barW, barH);
     ctx.shadowBlur = 0;
     ctx.fillStyle = 'rgba(255,255,255,0.85)';
     ctx.font = 'bold 10px DM Sans, sans-serif';
@@ -614,13 +608,12 @@ function renderMetrics() {
     count: d.count
   })).sort((a,b) => b.avgEngagement - a.avgEngagement);
 
-  const best = platformStats[0];
   const totalViews = metrics.reduce((a,m)=>a+m.views,0);
   const avgEng = (metrics.reduce((a,m)=>a+m.engagement,0)/metrics.length).toFixed(2);
   const bestPost = [...metrics].sort((a,b)=>b.views-a.views)[0];
 
   insights.innerHTML = `
-    <div class="insight-card"><div class="icon">🏆</div><div class="val">${best ? best.name.replace(/[📱📸🐦🎥💼]/g,'').trim() : '–'}</div><div class="desc">Mejor plataforma por engagement</div></div>
+    <div class="insight-card"><div class="icon">🏆</div><div class="val">${platformStats[0] ? platformStats[0].name.replace(/[📱📸🐦🎥💼]/g,'').trim() : '–'}</div><div class="desc">Mejor plataforma por engagement</div></div>
     <div class="insight-card"><div class="icon">👁️</div><div class="val">${totalViews >= 1000 ? (totalViews/1000).toFixed(1)+'K' : totalViews}</div><div class="desc">Vistas totales registradas</div></div>
     <div class="insight-card"><div class="icon">❤️</div><div class="val">${avgEng}%</div><div class="desc">Engagement medio global</div></div>
     <div class="insight-card"><div class="icon">🚀</div><div class="val">${bestPost ? (bestPost.views >= 1000 ? (bestPost.views/1000).toFixed(1)+'K' : bestPost.views) : '–'}</div><div class="desc">Mayor alcance en un post</div></div>
@@ -639,7 +632,6 @@ function renderMetrics() {
       <div class="metric-stat"><div class="val">${ps.totalShares}</div><div class="lbl">Shares</div></div>
       <div class="metric-stat"><div class="val" style="color:var(--success);">${ps.avgEngagement}%</div><div class="lbl">Engagement</div></div>
       <div class="perf-chart" style="flex:1;max-width:80px;"><div class="perf-bar" style="height:${Math.max(barPct,8)}%;"></div></div>
-      <div style="text-align:right;">${ps.name === platformStats[0].name ? '<span class="top-pill">⭐ Top</span>' : ''}</div>
       <button class="btn btn-danger btn-icon btn-sm" onclick="deletePlatformMetrics('${ps.name.replace(/'/g,"\\'")}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>
     `;
     list.appendChild(div);
@@ -811,7 +803,7 @@ function generateMediaKit() {
 
 function exportMediaKit() {
   const html = document.getElementById('mediakit-preview').innerHTML;
-  downloadFile(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Media Kit</title></head><body>${html}</body></html>`, `mediakit_${today()}.html`, 'text/html');
+  downloadFile(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Media Kit - ${user.name}</title><style>body{font-family:Arial;background:#080b12;color:#f0f4ff;padding:2rem;}</style></head><body>${html}</body></html>`, `mediakit_${today()}.html`, 'text/html');
   showNotif('📦 Media Kit exportado', 'success');
 }
 
@@ -820,79 +812,204 @@ function copyMediaKitLink() {
   navigator.clipboard.writeText(link).then(() => showNotif('🔗 Enlace copiado', 'success'));
 }
 
-function toggleSavedIdeas() {
-  showingSavedIdeas = !showingSavedIdeas;
-  document.getElementById('ideas-view-main').style.display = showingSavedIdeas ? 'none' : 'block';
-  document.getElementById('ideas-view-saved').style.display = showingSavedIdeas ? 'block' : 'none';
-  if (showingSavedIdeas) renderSavedIdeas();
+function updateSavedCount() {
+  const savedCount = document.getElementById('saved-count');
+  if (savedCount) savedCount.textContent = savedIdeas.length;
 }
 
-function generateIdeas() {
-  const ideas = [];
-  for (let i = 0; i < 15; i++) {
-    ideas.push({
-      id: Date.now() + i,
-      text: `Idea ${i + 1} para ${selectedNicho}: contenido de valor con gancho, desarrollo y CTA.`,
-      niche: selectedNicho,
-      date: today(),
-      saved: false
-    });
-  }
-  savedIdeas = savedIdeas.filter(x => x.saved);
-  localStorage.setItem('founderflow_ideas', JSON.stringify(savedIdeas));
-  renderIdeas(ideas);
-  showNotif('💡 15 ideas generadas', 'success');
-}
-
-function renderIdeas(ideas = []) {
-  const grid = document.getElementById('ideas-grid');
-  if (!ideas.length) return;
-  grid.innerHTML = ideas.map(idea => `
-    <div class="idea-card ${idea.saved ? 'saved' : ''}" onclick="toggleIdeaSave(${idea.id})">
-      <button class="idea-save-btn" onclick="event.stopPropagation(); toggleIdeaSave(${idea.id})"><i class="fas fa-bookmark"></i></button>
-      <div class="idea-text">${escapeHtml(idea.text)}</div>
-      <div class="idea-meta"><span>${idea.niche}</span><span>·</span><span>${formatDate(idea.date)}</span></div>
-    </div>
-  `).join('');
-}
-
-function renderSavedIdeas() {
-  const list = document.getElementById('saved-ideas-list');
-  document.getElementById('saved-count').textContent = savedIdeas.length;
-  if (!savedIdeas.length) {
-    list.innerHTML = `<div class="empty-state"><i class="fas fa-bookmark"></i><p>No hay ideas guardadas todavía.</p></div>`;
-    return;
-  }
-  list.innerHTML = savedIdeas.map(idea => `
-    <div class="saved-idea-item">
-      <div class="idea-txt">${escapeHtml(idea.text)}</div>
-      <button class="use-btn" onclick="useIdea(${idea.id})">Usar</button>
-    </div>
-  `).join('');
-}
-
-function toggleIdeaSave(id) {
-  const existing = savedIdeas.find(x => x.id === id);
-  if (existing) {
-    savedIdeas = savedIdeas.filter(x => x.id !== id);
+function toggleSaveIdea(index, btn, ideaStr) {
+  const idea = JSON.parse(ideaStr);
+  const card = btn.closest('.idea-card');
+  
+  const exists = savedIdeas.some(s => s.idea === idea.idea);
+  
+  if (exists) {
+    savedIdeas = savedIdeas.filter(s => s.idea !== idea.idea);
+    if (card) card.classList.remove('saved');
+    btn.innerHTML = '<i class="far fa-bookmark"></i>';
+    showNotif('Idea eliminada del banco', 'info');
   } else {
-    savedIdeas.push({ id, text: `Idea guardada ${id}`, niche: selectedNicho, date: today() });
+    savedIdeas.push({
+      ...idea,
+      id: Date.now(),
+      savedAt: new Date().toISOString()
+    });
+    if (card) card.classList.add('saved');
+    btn.innerHTML = '<i class="fas fa-bookmark" style="color:#ffd700"></i>';
+    showNotif('💡 Idea guardada en tu banco personal', 'success');
   }
-  localStorage.setItem('founderflow_ideas', JSON.stringify(savedIdeas));
-  renderSavedIdeas();
+  
+  localStorage.setItem('founderflowideas', JSON.stringify(savedIdeas));
+  updateSavedCount();
 }
 
-function useIdea(id) {
-  const idea = savedIdeas.find(x => x.id === id);
-  if (!idea) return;
-  document.getElementById('ai-input').value = idea.text;
-  toggleSavedIdeas();
+async function generateIdeas() {
+  const container = document.getElementById('ideas-loading');
+  const parent = container.parentElement;
+  parent.classList.add('is-loading');
+  
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          {
+            role: 'system',
+            content: `Eres un generador de ideas para creadores de contenido.
+            Responde EXCLUSIVAMENTE con un array JSON de 15 objetos.
+            NO incluyas texto antes o después del JSON.
+            NO uses markdown, NO uses backticks.
+            
+            Formato EXACTO:
+            [{"idea": "texto completo", "tipo": "Reel/TikTok/Carrusel", "gancho": "hook corto"}]`
+          },
+          {
+            role: 'user',
+            content: `Genera 15 ideas ORIGINALES para el nicho: "${selectedNicho}". Responde SOLO con el JSON.`
+          }
+        ],
+        temperature: 0.9,
+        max_tokens: 2000
+      })
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    let rawContent = data.choices[0].message.content;
+    
+    rawContent = rawContent.replace(/```json|```/g, '').trim();
+    
+    const firstBracket = rawContent.indexOf('[');
+    const lastBracket = rawContent.lastIndexOf(']');
+    
+    if (firstBracket === -1 || lastBracket === -1) {
+      throw new Error('No se encontró array JSON');
+    }
+    
+    const cleanJson = rawContent.substring(firstBracket, lastBracket + 1);
+    const ideas = JSON.parse(cleanJson);
+    
+    showingSavedIdeas = false;
+    renderIdeasGrid(ideas.slice(0, 15));
+    
+    const toggleBtn = document.getElementById('toggle-ideas-btn');
+    if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-bookmark"></i> Guardadas';
+    
+    showNotif(`✅ ${ideas.slice(0, 15).length} ideas generadas`, 'success');
+    
+  } catch (error) {
+    console.error('Groq error:', error);
+    showNotif(`Error: ${error.message}`, 'error');
+    
+    const grid = document.getElementById('ideas-grid');
+    if (grid) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>No se pudieron generar ideas</p>
+          <button class="btn btn-gold btn-sm" onclick="generateIdeas()">Reintentar</button>
+        </div>
+      `;
+    }
+  } finally {
+    parent.classList.remove('is-loading');
+  }
 }
 
-function savePostsAndRerender() {
-  savePosts();
-  renderPosts(currentFilter);
-  renderCalendar();
+function renderIdeasGrid(ideas) {
+  const grid = document.getElementById('ideas-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = '';
+  
+  ideas.forEach((idea, i) => {
+    const ideaObj = {
+      idea: idea.idea || idea.text || `Idea ${i + 1}`,
+      tipo: idea.tipo || 'Contenido',
+      gancho: idea.gancho || 'Idea creativa'
+    };
+    
+    const div = document.createElement('div');
+    div.className = 'idea-card';
+    
+    div.innerHTML = `
+      <button class="idea-save-btn" onclick="toggleSaveIdea(${i}, this, '${JSON.stringify(ideaObj).replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
+        <i class="far fa-bookmark"></i>
+      </button>
+      <div class="idea-text">${escapeHtml(ideaObj.idea)}</div>
+      <div class="idea-meta">
+        <span class="idea-type">${escapeHtml(ideaObj.tipo)}</span>
+        <span class="idea-hook">🎣 ${escapeHtml(ideaObj.gancho)}</span>
+      </div>
+    `;
+    
+    grid.appendChild(div);
+  });
+}
+
+function toggleSavedIdeasView() {
+  const grid = document.getElementById('ideas-grid');
+  const toggleBtn = document.getElementById('toggle-ideas-btn');
+  
+  if (!showingSavedIdeas) {
+    if (savedIdeas.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;">
+          <i class="fas fa-bookmark"></i>
+          <p>No tienes ideas guardadas</p>
+          <p style="font-size:0.8rem;">Genera ideas con IA y guárdalas con el botón 📌</p>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = '';
+      savedIdeas.forEach((idea, idx) => {
+        const div = document.createElement('div');
+        div.className = 'idea-card saved';
+        div.innerHTML = `
+          <button class="idea-save-btn" onclick="removeSavedIdea(${idx})">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <div class="idea-text">${escapeHtml(idea.idea)}</div>
+          <div class="idea-meta">
+            <span class="idea-type">${escapeHtml(idea.tipo || 'Contenido')}</span>
+            <span class="idea-hook">🎣 ${escapeHtml(idea.gancho || 'Idea guardada')}</span>
+          </div>
+          <button class="use-idea-btn" onclick="useSavedIdea('${escapeHtml(idea.idea).replace(/'/g, "\\'")}')">
+            <i class="fas fa-arrow-right"></i> Usar esta idea
+          </button>
+        `;
+        grid.appendChild(div);
+      });
+    }
+    
+    showingSavedIdeas = true;
+    if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-magic"></i> Generar ideas IA';
+    showNotif('Mostrando ideas guardadas', 'info');
+    
+  } else {
+    showingSavedIdeas = false;
+    generateIdeas();
+  }
+}
+
+function removeSavedIdea(index) {
+  savedIdeas.splice(index, 1);
+  localStorage.setItem('founderflowideas', JSON.stringify(savedIdeas));
+  updateSavedCount();
+  toggleSavedIdeasView();
+  showNotif('Idea eliminada', 'info');
+}
+
+function useSavedIdea(ideaText) {
+  document.getElementById('ai-input').value = ideaText;
+  document.getElementById('ai-input').focus();
+  showNotif('💡 Idea copiada al generador. ¡Personalízala!', 'success');
 }
 
 function today() { return new Date().toISOString().split('T')[0]; }
@@ -920,11 +1037,11 @@ function platformIcon(platform) {
 
 function escapeHtml(str = '') {
   return String(str)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function downloadFile(content, filename, mime) {
@@ -957,3 +1074,455 @@ function initNichoSelector() {
 window.addEventListener('load', () => {
   initNichoSelector();
 });
+
+// ============================================
+// MODALES
+// ============================================
+
+// Variables para confirmación
+let pendingConfirmAction = null;
+let pendingConfirmParams = null;
+
+// Modal Métricas
+function openModalMetrics() {
+    document.getElementById('modal-metrics').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalMetrics() {
+    document.getElementById('modal-metrics').classList.remove('open');
+    document.body.style.overflow = '';
+    // Limpiar campos
+    document.getElementById('metric-post-title').value = '';
+    document.getElementById('metric-views').value = '';
+    document.getElementById('metric-likes').value = '';
+    document.getElementById('metric-shares').value = '';
+}
+
+function saveMetricsFromModal() {
+    const title = document.getElementById('metric-post-title').value;
+    const platform = document.getElementById('metric-platform').value;
+    const views = parseInt(document.getElementById('metric-views').value) || 0;
+    const likes = parseInt(document.getElementById('metric-likes').value) || 0;
+    const shares = parseInt(document.getElementById('metric-shares').value) || 0;
+    
+    if (!title) {
+        showNotif('Escribe un título para el post', 'warning');
+        return;
+    }
+    
+    metrics.push({
+        id: Date.now(),
+        title,
+        platform,
+        views,
+        likes,
+        shares,
+        nicho: selectedNicho,
+        date: today()
+    });
+    
+    localStorage.setItem('founderflow_metrics', JSON.stringify(metrics));
+    renderMetrics();
+    updateBestPerformingInsight();
+    closeModalMetrics();
+    showNotif('✅ Métricas guardadas', 'success');
+}
+
+// Modal Editar Post
+let currentEditPostIndex = null;
+
+function openModalEditPost(index) {
+    currentEditPostIndex = index;
+    const post = posts[index];
+    document.getElementById('edit-post-text').value = post.text;
+    document.getElementById('edit-post-index').value = index;
+    document.getElementById('modal-edit-post').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalEditPost() {
+    document.getElementById('modal-edit-post').classList.remove('open');
+    document.body.style.overflow = '';
+    currentEditPostIndex = null;
+}
+
+function saveEditPost() {
+    const index = parseInt(document.getElementById('edit-post-index').value);
+    const newText = document.getElementById('edit-post-text').value.trim();
+    
+    if (!newText) {
+        showNotif('El post no puede estar vacío', 'warning');
+        return;
+    }
+    
+    if (newText !== posts[index].text) {
+        posts[index].text = newText;
+        posts[index].edited = new Date().toISOString();
+        savePosts();
+        renderPosts(currentFilter);
+        renderCalendar();
+        showNotif('✏️ Post actualizado', 'success');
+    }
+    
+    closeModalEditPost();
+}
+
+// Modal Confirmación
+function openModalConfirm(message, onConfirm, ...params) {
+    document.getElementById('confirm-message').textContent = message;
+    pendingConfirmAction = onConfirm;
+    pendingConfirmParams = params;
+    
+    // Cambiar estilo del botón según la acción
+    const confirmBtn = document.getElementById('confirm-action-btn');
+    if (message.includes('eliminar') || message.includes('Eliminar')) {
+        confirmBtn.className = 'btn btn-danger';
+        confirmBtn.innerHTML = '<i class="fas fa-trash"></i> Eliminar';
+    } else {
+        confirmBtn.className = 'btn btn-gold';
+        confirmBtn.innerHTML = 'Confirmar';
+    }
+    
+    document.getElementById('modal-confirm').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalConfirm() {
+    document.getElementById('modal-confirm').classList.remove('open');
+    document.body.style.overflow = '';
+    pendingConfirmAction = null;
+    pendingConfirmParams = null;
+}
+
+function executeConfirmAction() {
+    if (pendingConfirmAction && typeof pendingConfirmAction === 'function') {
+        pendingConfirmAction(...pendingConfirmParams);
+    }
+    closeModalConfirm();
+}
+
+// Toast para ideas guardadas
+function showIdeaSavedToast() {
+    const toast = document.getElementById('idea-saved-toast');
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
+// Actualizar funciones existentes para usar los modales
+
+// Reemplazar la función deletePost original
+const originalDeletePost = deletePost;
+function deletePost(index) {
+    openModalConfirm('¿Eliminar este post permanentemente? Esta acción no se puede deshacer.', (idx) => {
+        posts.splice(idx, 1);
+        savePosts();
+        renderPosts(currentFilter);
+        renderCalendar();
+        showNotif('🗑️ Post eliminado', 'info');
+    }, index);
+}
+
+// Reemplazar la función deleteMetric original
+const originalDeleteMetric = deleteMetric;
+function deleteMetric(index) {
+    openModalConfirm('¿Eliminar estas métricas?', (idx) => {
+        metrics.splice(idx, 1);
+        localStorage.setItem('founderflow_metrics', JSON.stringify(metrics));
+        renderMetrics();
+        updateBestPerformingInsight();
+        showNotif('Métrica eliminada', 'info');
+    }, index);
+}
+
+// Reemplazar la función editPost para usar el modal
+function editPost(index) {
+    openModalEditPost(index);
+}
+
+// Actualizar toggleSaveIdea para mostrar toast
+function toggleSaveIdea(index, btn, ideaStr) {
+    const idea = JSON.parse(ideaStr);
+    const card = btn.closest('.idea-card');
+    
+    const exists = savedIdeas.some(s => s.idea === idea.idea);
+    
+    if (exists) {
+        savedIdeas = savedIdeas.filter(s => s.idea !== idea.idea);
+        if (card) card.classList.remove('saved');
+        btn.innerHTML = '<i class="far fa-bookmark"></i>';
+        showNotif('Idea eliminada del banco', 'info');
+    } else {
+        savedIdeas.push({
+            ...idea,
+            id: Date.now(),
+            savedAt: new Date().toISOString()
+        });
+        if (card) card.classList.add('saved');
+        btn.innerHTML = '<i class="fas fa-bookmark" style="color:#ffd700"></i>';
+        showIdeaSavedToast();
+        showNotif('💡 Idea guardada en tu banco personal', 'success');
+    }
+    
+    localStorage.setItem('founderflowideas', JSON.stringify(savedIdeas));
+    updateSavedCount();
+}
+
+// ============================================
+// MODALES DE COLABORACIONES
+// ============================================
+
+// Variables para colaboraciones
+let currentCollabDetailIndex = null;
+
+// Abrir modal para añadir colaboración
+function openModalCollaboration() {
+    document.getElementById('modal-collaboration').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Fecha por defecto = hoy + 14 días
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 14);
+    document.getElementById('collab-date').value = defaultDate.toISOString().split('T')[0];
+}
+
+function closeModalCollaboration() {
+    document.getElementById('modal-collaboration').classList.remove('open');
+    document.body.style.overflow = '';
+    // Limpiar campos
+    document.getElementById('collab-client').value = '';
+    document.getElementById('collab-amount').value = '';
+    document.getElementById('collab-status').value = 'pending';
+}
+
+function saveCollaborationFromModal() {
+    const client = document.getElementById('collab-client').value.trim();
+    const amount = parseFloat(document.getElementById('collab-amount').value) || 0;
+    const status = document.getElementById('collab-status').value;
+    const date = document.getElementById('collab-date').value || today();
+    
+    if (!client) {
+        showNotif('Escribe el nombre del cliente/marca', 'warning');
+        return;
+    }
+    
+    const statusMap = {
+        pending: { text: 'Pendiente', icon: 'fa-clock', color: '#3b82f6' },
+        paid: { text: 'Cobrado', icon: 'fa-circle-check', color: '#4ade80' },
+        cancelled: { text: 'Cancelado', icon: 'fa-circle-xmark', color: '#ef4444' }
+    };
+    
+    collaborations.push({
+        id: Date.now(),
+        client,
+        status,
+        amount,
+        date,
+        icon: 'fas fa-handshake',
+        color: statusMap[status]?.color || '#60a5fa'
+    });
+    
+    saveCollabs();
+    renderCollaborations();
+    closeModalCollaboration();
+    showNotif(`🤝 Colaboración con ${client} añadida`, 'success');
+}
+
+// Abrir modal para editar colaboración
+function openModalEditCollaboration(index) {
+    const collab = collaborations[index];
+    if (!collab) return;
+    
+    document.getElementById('edit-collab-client').value = collab.client;
+    document.getElementById('edit-collab-amount').value = collab.amount;
+    document.getElementById('edit-collab-status').value = collab.status;
+    document.getElementById('edit-collab-date').value = collab.date;
+    document.getElementById('edit-collab-index').value = index;
+    
+    document.getElementById('modal-edit-collab').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalEditCollaboration() {
+    document.getElementById('modal-edit-collab').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function saveEditCollaboration() {
+    const index = parseInt(document.getElementById('edit-collab-index').value);
+    const client = document.getElementById('edit-collab-client').value.trim();
+    const amount = parseFloat(document.getElementById('edit-collab-amount').value) || 0;
+    const status = document.getElementById('edit-collab-status').value;
+    const date = document.getElementById('edit-collab-date').value;
+    
+    if (!client) {
+        showNotif('Escribe el nombre del cliente/marca', 'warning');
+        return;
+    }
+    
+    const statusMap = {
+        pending: { text: 'Pendiente', icon: 'fa-clock', color: '#3b82f6' },
+        paid: { text: 'Cobrado', icon: 'fa-circle-check', color: '#4ade80' },
+        cancelled: { text: 'Cancelado', icon: 'fa-circle-xmark', color: '#ef4444' }
+    };
+    
+    collaborations[index] = {
+        ...collaborations[index],
+        client,
+        amount,
+        status,
+        date,
+        color: statusMap[status]?.color || '#60a5fa'
+    };
+    
+    saveCollabs();
+    renderCollaborations();
+    closeModalEditCollaboration();
+    showNotif(`✏️ Colaboración actualizada`, 'success');
+}
+
+// Ver detalle de colaboración
+function openModalCollabDetail(index) {
+    currentCollabDetailIndex = index;
+    const collab = collaborations[index];
+    if (!collab) return;
+    
+    document.getElementById('detail-client').textContent = collab.client;
+    document.getElementById('detail-amount').textContent = `€${collab.amount.toLocaleString('es-ES')}`;
+    document.getElementById('detail-date').textContent = formatDate(collab.date);
+    
+    const statusSpan = document.getElementById('detail-status');
+    if (collab.status === 'paid') {
+        statusSpan.textContent = '✅ Cobrado';
+        statusSpan.className = 'badge status-paid';
+    } else if (collab.status === 'pending') {
+        statusSpan.textContent = '📋 Pendiente';
+        statusSpan.className = 'badge status-pending';
+    } else {
+        statusSpan.textContent = '❌ Cancelado';
+        statusSpan.className = 'badge status-cancelled';
+    }
+    
+    document.getElementById('modal-collab-detail').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalCollabDetail() {
+    document.getElementById('modal-collab-detail').classList.remove('open');
+    document.body.style.overflow = '';
+    currentCollabDetailIndex = null;
+}
+
+function editFromDetail() {
+    if (currentCollabDetailIndex !== null) {
+        closeModalCollabDetail();
+        openModalEditCollaboration(currentCollabDetailIndex);
+    }
+}
+
+// Sobrescribir addCollaboration para usar el modal
+function addCollaboration() {
+    openModalCollaboration();
+}
+
+// Sobrescribir renderCollaborations para añadir botones de editar y ver detalle
+function renderCollaborations() {
+    const list = document.getElementById('collaborations-list');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    if (!collaborations.length) {
+        list.innerHTML = `<div class="empty-state" style="padding:1.5rem;"><i class="fas fa-handshake"></i><p>Sin colaboraciones aún. Añade tu primera colaboración.</p></div>`;
+        return;
+    }
+    
+    collaborations.forEach((c, i) => {
+        const statusConfig = {
+            paid: { text: 'Cobrado', icon: 'fa-circle-check', color: '#4ade80', class: 'status-paid' },
+            pending: { text: 'Pendiente', icon: 'fa-clock', color: '#3b82f6', class: 'status-pending' },
+            cancelled: { text: 'Cancelado', icon: 'fa-circle-xmark', color: '#ef4444', class: 'status-cancelled' }
+        };
+        const st = statusConfig[c.status] || statusConfig.pending;
+        
+        const div = document.createElement('div');
+        div.className = 'colab-item';
+        div.innerHTML = `
+            <div class="colab-icon" style="background:${c.color || st.color}22; color:${c.color || st.color};">
+                <i class="${c.icon || 'fas fa-handshake'}"></i>
+            </div>
+            <div class="colab-info" onclick="openModalCollabDetail(${i})" style="cursor:pointer;">
+                <div class="colab-name">${escapeHtml(c.client)}</div>
+                <div class="colab-sub">${formatDate(c.date)} · <i class="fas ${st.icon}" style="color:${st.color};"></i> ${st.text}</div>
+            </div>
+            <div class="colab-amount">€${c.amount.toLocaleString('es-ES')}</div>
+            <div class="colab-actions">
+                <button class="btn btn-ghost btn-icon btn-sm" onclick="openModalEditCollaboration(${i})" title="Editar">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button class="btn btn-danger btn-icon btn-sm" onclick="deleteColab(${i})" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// Eliminar colaboración con confirmación
+function deleteColab(index) {
+    openModalConfirm('¿Eliminar esta colaboración? Esta acción no se puede deshacer.', (idx) => {
+        collaborations.splice(idx, 1);
+        saveCollabs();
+        renderCollaborations();
+        showNotif('Colaboración eliminada', 'info');
+    }, index);
+}
+
+// ============================================
+// MODAL DE CONFIRMACIÓN PARA CERRAR SESIÓN
+// ============================================
+
+// Abrir modal de confirmación genérico
+function openModalConfirm(message, onConfirm, ...params) {
+    document.getElementById('confirm-message').textContent = message;
+    pendingConfirmAction = onConfirm;
+    pendingConfirmParams = params;
+    
+    const confirmBtn = document.getElementById('confirm-action-btn');
+    if (message.includes('Cerrar') || message.includes('cerrar')) {
+        confirmBtn.className = 'btn btn-danger';
+        confirmBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Cerrar sesión';
+    } else {
+        confirmBtn.className = 'btn btn-danger';
+        confirmBtn.innerHTML = '<i class="fas fa-trash"></i> Eliminar';
+    }
+    
+    document.getElementById('modal-confirm').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+// Cerrar modal
+function closeModalConfirm() {
+    document.getElementById('modal-confirm').classList.remove('open');
+    document.body.style.overflow = '';
+    pendingConfirmAction = null;
+    pendingConfirmParams = null;
+}
+
+// Ejecutar la acción confirmada
+function executeConfirmAction() {
+    if (pendingConfirmAction && typeof pendingConfirmAction === 'function') {
+        pendingConfirmAction(...pendingConfirmParams);
+    }
+    closeModalConfirm();
+}
+
+// Función de logout que usa el modal
+function logout() {
+    openModalConfirm('¿Cerrar sesión? Perderás los cambios no guardados.', () => {
+        localStorage.removeItem('founderflow_user');
+        window.location.href = 'index.html';
+    });
+}
+
